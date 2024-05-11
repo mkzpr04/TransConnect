@@ -100,3 +100,4 @@ C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\T
 C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\TransConnectTests\obj\Debug\net8.0\TransConnectTests.pdb
 C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\TransConnectTests\obj\Debug\net8.0\TransConnectTests.genruntimeconfig.cache
 C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\TransConnectTests\obj\Debug\net8.0\ref\TransConnectTests.dll
+c:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\TransConnectTests\obj\Debug\net8.0\TransConnectTests.sourcelink.json

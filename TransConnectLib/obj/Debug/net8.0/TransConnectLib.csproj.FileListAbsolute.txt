@@ -9,3 +9,4 @@ C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\T
 C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\TransConnectLib\obj\Debug\net8.0\refint\TransConnectLib.dll
 C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\TransConnectLib\obj\Debug\net8.0\TransConnectLib.pdb
 C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\TransConnectLib\obj\Debug\net8.0\ref\TransConnectLib.dll
+c:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\TransConnectLib\obj\Debug\net8.0\TransConnectLib.sourcelink.json
