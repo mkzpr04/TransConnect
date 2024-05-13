@@ -16,3 +16,4 @@ C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\T
 C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\TransConnectApp\obj\Debug\net8.0\TransConnectApp.pdb
 C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\TransConnectApp\obj\Debug\net8.0\TransConnectApp.genruntimeconfig.cache
 C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\TransConnectApp\obj\Debug\net8.0\ref\TransConnectApp.dll
+C:\Users\markz\OneDrive\Bureau\ESILV\formation initiale semestre 2\C#\PROBLEME\TransConnectApp\obj\Debug\net8.0\TransConnectApp.sourcelink.json

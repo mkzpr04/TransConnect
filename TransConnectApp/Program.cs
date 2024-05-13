@@ -8,8 +8,6 @@ namespace TransConnectApp
         static void Main(string[] args)
         {
             // Initialiser l'employé racine
-            var directeurGeneral = new Salarie("123456789", "Dupont", "Jean", new DateTime(1970, 1, 1), "123 rue Principale", "dupont.jean@example.com", "0123456789", new DateTime(2000, 1, 1), "Directeur", 50000);
-            Salarie.InitialiserOrganigramme(directeurGeneral);
 
             bool enFonctionnement = true;
             while (enFonctionnement)
@@ -29,7 +27,7 @@ namespace TransConnectApp
                         GererLesSalaries();
                         break;
                     case "2":
-                        Salarie.AfficherOrganigramme();
+                        //Salarie.AfficherOrganigramme();
                         break;
                     case "3":
                         enFonctionnement = false;
@@ -67,7 +65,7 @@ namespace TransConnectApp
                         ModifierSalarie();
                         break;
                     case "3":
-                        SupprimerSalarie();
+                        //SupprimerSalarie();
                         break;
                     case "4":
                         Salarie.ListerSalaries();
@@ -116,14 +114,14 @@ namespace TransConnectApp
                 Salarie nouveauSalarie = new Salarie(numSecu, nom, prenom, dateNaissance, adresse, email, telephone, dateEntree, poste, salaire);
                 Console.Write("Entrez le numéro de sécurité sociale du manager: ");
                 string numSecuManager = Console.ReadLine();
-                Salarie.AjouterSalarie(nouveauSalarie, numSecuManager);
+                Salarie.AjouterSalarie(nouveauSalarie);
             }
             else
             {
                 Salarie nouveauSalarie = new Salarie(numSecu, nom, prenom, dateNaissance, adresse, email, telephone, dateEntree);
                 Console.Write("Entrez le numéro de sécurité sociale du manager: ");
                 string numSecuManager = Console.ReadLine();
-                Salarie.AjouterSalarie(nouveauSalarie, numSecuManager);
+                Salarie.AjouterSalarie(nouveauSalarie);
             }
         }
 
@@ -151,13 +149,6 @@ namespace TransConnectApp
             Console.ReadKey();
         }
 
-        static void SupprimerSalarie()
-        {
-            Console.WriteLine("Suppression d'un salarié...");
-            Console.Write("Entrez le numéro de sécurité sociale du salarié à supprimer: ");
-            string numSecu = Console.ReadLine();
 
-            Salarie.SupprimerSalarie(numSecu);
-        }
     }
 }

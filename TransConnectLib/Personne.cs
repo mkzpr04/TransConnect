@@ -25,6 +25,10 @@ namespace TransConnectLib
             this.prenom = prenom;
             this.dateNaissance = dateNaissance;
             this.adressePostale = adressePostale;
+            if (!MailValide(adresseMail))
+            {
+                throw new ArgumentException("L'adresse mail n'est pas valide.");
+            }
             this.adresseMail = adresseMail;
             this.telephone = telephone;
         }
@@ -55,6 +59,19 @@ namespace TransConnectLib
         // Méthodes de la classe Personne.
 
         // Vérifie si l'adresse mail est valide.
+        public bool MailValide(string adresseMail)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(adresseMail);
+                return addr.Address == adresseMail;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public bool MailValide()
         {
             try
