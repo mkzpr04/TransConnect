@@ -53,20 +53,12 @@ Tests pour valider les calculs et les rapports générés par le service.
 
 Objectif : Assurer que tous les modules fonctionnent ensemble de manière fluide et conforme aux exigences du projet.
 
-Tâches :
 
-Intégration des différents modules : S'assurer que les modules de salariés, clients, commandes, et statistiques interagissent sans problèmes.
-Tests d'intégration complets : Exécuter des scénarios de tests qui couvrent plusieurs modules à la fois pour identifier et corriger les problèmes d'intégration.
+S'assurer que les modules de salariés, clients, commandes, et statistiques interagissent sans problèmes.
+Exécuter des scénarios de tests qui couvrent plusieurs modules à la fois pour identifier et corriger les problèmes d'intégration.
 
 Étape 7 : Documentation et Finalisation
 
-Objectif : Rédiger la documentation du projet et préparer la livraison finale.
-
-Tâches :
-
-Documentation du code et des fonctionnalités : Documenter toutes les classes, méthodes, et leur utilisation pour faciliter la maintenance et l'extension futures du système.
-Rédaction d'un rapport final : Comprendre un résumé du projet, les défis rencontrés, les solutions implémentées, et les résultats des tests.
-Chaque étape peut être assignée à une personne ou être travaillée en collaboration, en fonction de vos préférences et de la répartition des compétences. Cela permettra de maintenir une progression constante et de gérer efficacement les différentes parties du projet.
 
 
 Tâches à Accomplir
