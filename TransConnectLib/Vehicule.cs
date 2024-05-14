@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TransConnectLib
 {
-    abstract class Vehicule
+    public abstract class Vehicule
     {
         public Chauffeur chauffeur;
         public string PlaqueImmatriculation;
