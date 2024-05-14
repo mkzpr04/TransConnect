@@ -16,20 +16,23 @@ namespace TransConnectLib
         public static List<Salarie> EmployeTC = new List<Salarie>();
 
         // Constructeurs pour la classe Salarie.
-        public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, string telephone, DateTime dateEntree, string poste, double salaire) 
-        : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
+        public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance,
+                      string adressePostale, string adresseMail, string telephone, DateTime dateEntree, string poste, double salaire) 
+                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
         {
             this.dateEntree = dateEntree;
             this.poste = poste;
             this.salaire = salaire;
         }
-        public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, string telephone) 
-        : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
+        public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale,
+                      string adresseMail, string telephone) 
+                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
         {
             this.dateEntree = DateTime.Now;
         }
-        public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, string telephone, DateTime dateEntree) 
-        : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
+        public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale,
+                      string adresseMail, string telephone, DateTime dateEntree) 
+                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
         {
             this.dateEntree = dateEntree;
         }
