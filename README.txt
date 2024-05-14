@@ -1,20 +1,22 @@
 README Projet C#:
 
-Etape 1: Création des classes Personne et Véhicule ainsi que les classes qui en héritent Client.cs, Salarie.cs.
-Tests unitaires avec Xunit + (Extension .NET Core Test Explorer.) (ou ligne de commande avec dotnet test) sur le TransConnectTests.
+Etape 1: Création des classes Personne et Véhicule ainsi que les classes qui en héritent Client.cs, Salarie.cs, Chauffeur.cs
+Tests unitaires des classes Personne, Salarie avec Xunit + (Extension .NET Core Test Explorer.) (ou ligne de commande avec dotnet test) sur le TransConnectTests.
+A FAIRE :
+Tests unitaire de la classe Véhicule et des classes qui en héritent.
+Documentation de la classe Véhicule et des classes qui en héritent.
 
 - Création d'une interface utilisateur [avec la console] et alimentation au fil des étapes suivantes.
 
 Étape 2 : Gestion des Salariés
 Gérer les informations des salariés grâce à une classe EmployeeService, incluant l'embauche (AjoutSalarie), le licenciement (SupprimerSalarie), les mises à jour (ModifieSalarie) de leurs profils et enfin (ListerSalarie)
-Organigramme + Liste
+Implémentation de l'organigramme dynamique qui change en fonction de si l'on ajoute des salariés etc. L'organigramme initial contient les membres de la société décrit dans le document pdf. 
 
 
-
-Binôme  : Développement des interfaces, tests d'intégration avec EmployeeService, et ajustements basés sur les retours lors des tests manuels.
-Tests et Validation :
-Responsabilités : S'assurer que toutes les fonctionnalités du module de gestion des salariés fonctionnent comme prévu sans erreurs ni bugs.
-Binôme 1 et 2 : Réalisation des tests unitaires et d'intégration, correction des bugs, et validation finale du module.
+A FAIRE: 
+S'assurer que toutes les fonctionnalités du module de gestion des salariés fonctionnent comme prévu sans erreurs ni bugs.
+-> Tests unitaires sur la gestion des salariés
+-> Documentation
 
 Etape 3: Gestion des Clients 
 
@@ -59,29 +61,19 @@ Exécuter des scénarios de tests qui couvrent plusieurs modules à la fois pour
 
 Étape 7 : Documentation et Finalisation
 
+A la fin de chaque étape.
 
 
-Tâches à Accomplir
-Planification de l'Interface :
-Définir les flux d'utilisateur : Identifiez les actions typiques que les utilisateurs devront réaliser et les données qu'ils devront voir ou modifier.
-Maquetter l'interface : Créez des esquisses simples de l'interface pour visualiser la disposition des menus, des formulaires et des rapports.
-Développement de l'Interface Console :
-Structure de Menu Principal : Implémentez un menu principal qui oriente les utilisateurs vers différents sous-menus pour les salariés, les clients, les commandes et les statistiques.
+Interface dans TRANSCONNECTAPP:
+
 Sous-Menus Détaillés :
 Gestion des Salariés : Ajouter, supprimer, mettre à jour, et lister les salariés.
 Gestion des Clients : Ajouter, supprimer, mettre à jour, et afficher les clients par divers critères.
 Gestion des Commandes : Créer, modifier, et afficher les détails des commandes, incluant le calcul d'itinéraire.
 Affichage des Statistiques : Visualiser les performances, le volume des commandes, etc.
 Implémentation Fonctionnelle :
-Logique de Navigation : Codez la logique pour permettre la navigation entre les différents menus et sous-menus.
-Interaction avec les Services : Connectez l'interface utilisateur aux services métier pour effectuer des opérations de données réelles (par exemple, créer un nouveau client, afficher les informations d'un salarié).
-Tests de l'Interface Utilisateur :
-Tests Manuels : Exécutez des scénarios d'utilisation courants pour s'assurer que l'interface répond correctement aux entrées de l'utilisateur et affiche les données attendues.
-Validation de l'Interface : Assurez-vous que toutes les entrées de l'utilisateur sont validées avant d'être traitées pour éviter des erreurs de runtime.
-Amélioration et Ajustement :
-Collecter des Feedbacks : Demandez à des utilisateurs potentiels (par exemple, vos camarades de classe) de tester l'interface et de donner leur avis.
-Faire des Ajustements Basés sur le Feedback : Modifiez l'interface basée sur les suggestions et les critiques pour améliorer l'expérience utilisateur.
 
+Interaction avec les Services : Connecté aux services métier pour effectuer des opérations de données réelles (par exemple, créer un nouveau client, afficher les informations d'un salarié).
 
 
 
@@ -131,61 +123,6 @@ namespace TransConnectApp
                     default:
                         Console.WriteLine("Choix invalide. Veuillez réessayer.");
                         break;
-                }
-            }
-        }
-
-        static void GestionDesSalaries()
-        {
-            bool retour = true;
-            while (retour)
-            {
-                Console.Clear();
-                Console.WriteLine("Gestion des Salariés");
-                Console.WriteLine("1. Ajouter un salarié");
-                Console.WriteLine("2. Modifier un salarié");
-                Console.WriteLine("3. Supprimer un salarié");
-                Console.WriteLine("4. Lister tous les salariés");
-                Console.WriteLine("5. Retour");
-
-                Console.Write("Veuillez choisir une option : ");
-                var choix = Console.ReadLine();
-
-                switch (choix)
-                {
-                    case "1":
-                        Console.WriteLine("Saisissez les informations du salarié à ajouter (Numéro de sécu / nom / prénom / dateNaissance / adresse / email / tél / date d'entrée / poste / salaire) :");
-                        string numSecu = Console.ReadLine();
-                        string nom = Console.ReadLine();
-                        string prenom = Console.ReadLine();
-                        DateTime dateNaissance = DateTime.Parse(Console.ReadLine());
-                        string adresse = Console.ReadLine();
-                        string email = Console.ReadLine();
-                        string telephone = Console.ReadLine();
-                        DateTime dateEntree = DateTime.Parse(Console.ReadLine());
-                        string poste = Console.ReadLine();
-                        double salaire = double.Parse(Console.ReadLine());
-
-                        listeSalarie.AjouterEmploye(numSecu, nom, prenom, dateNaissance, adresse, email, telephone, dateEntree, poste, salaire);
-                        break;
-                    case "2":
-                        ModifierSalarie();
-                        break;
-                    case "3":
-                        SupprimerSalarie();
-                        break;
-                    case "4":
-                        ListerSalaries();
-                        break;
-                    case "5":
-                        retour = false;
-                        break;
-                    default:
-                        Console.WriteLine("Choix invalide. Veuillez réessayer.");
-                        Console.ReadKey();
-                        break;
-                
-                    
                 }
             }
         }
