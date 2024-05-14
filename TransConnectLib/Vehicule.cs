@@ -30,24 +30,7 @@ namespace TransConnectLib
             this.chauffeur = nouveauChauffeur;
         }
 
-        public void ChangerChauffeur(Chauffeur nouveauChauffeur)
-        {
-            if (this.chauffeur != null && this.chauffeur.Equals(nouveauChauffeur))
-            {
-                Console.WriteLine("Pas de changement de chauffeur nécessaire.");
-                return;
-            }
-
-            if (nouveauChauffeur.IsAvailable())
-            {
-                this.chauffeur = nouveauChauffeur;
-                Console.WriteLine($"Changement de chauffeur effectué. Nouveau chauffeur: {nouveauChauffeur.Nom}");
-            }
-            else
-            {
-                Console.WriteLine("Changement de chauffeur impossible.");
-            }
-        }
+        
 
     }
 }
