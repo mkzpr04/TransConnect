@@ -59,7 +59,7 @@ namespace TransConnectLib
         // Méthodes de la classe Personne.
 
         // Vérifie si l'adresse mail est valide.
-        public bool MailValide(string adresseMail)
+        public static bool MailValide(string adresseMail)  // Méthode statique pour la réutiliser dans d'autres classes sans instancier un objet Personne.
         {
             try
             {

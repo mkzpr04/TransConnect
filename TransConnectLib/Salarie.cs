@@ -14,27 +14,42 @@ namespace TransConnectLib
         private double salaire;
         public static NoeudEmploye Organigramme;
         public static List<Salarie> EmployeTC = new List<Salarie>();
+        public List<NoeudEmploye> Subordonnes;
+
 
         // Constructeurs pour la classe Salarie.
         public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance,
                       string adressePostale, string adresseMail, string telephone, DateTime dateEntree, string poste, double salaire) 
-                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
+                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone) // Salaire et poste connus
         {
             this.dateEntree = dateEntree;
             this.poste = poste;
             this.salaire = salaire;
+            Subordonnes = new List<NoeudEmploye>();
         }
         public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale,
                       string adresseMail, string telephone) 
-                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
+                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone) // Pas de date d'entrée + Salaire et poste inconnus
         {
             this.dateEntree = DateTime.Now;
+            Subordonnes = new List<NoeudEmploye>();
         }
         public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale,
                       string adresseMail, string telephone, DateTime dateEntree) 
-                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
+                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone) // Salaire et poste inconnus 
         {
             this.dateEntree = dateEntree;
+            Subordonnes = new List<NoeudEmploye>();
+        }
+
+        public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale,
+                      string adresseMail, string telephone, string poste, double salaire) 
+                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone) // Date d'entrée inconnue
+        {
+            this.dateEntree = DateTime.Now;
+            this.poste = poste;
+            this.salaire = salaire;
+            Subordonnes = new List<NoeudEmploye>();
         }
 
         // Propriétés de la classe Salarie.
@@ -61,6 +76,30 @@ namespace TransConnectLib
             EmployeTC.Add(salarie);
             Console.WriteLine("Salarié ajouté avec succès !");
         }
+        // overload de la méthode AjouterSalarie pour associer un salarié à un manager (dans l'affichage de l'organigramme)
+        public static void AjouterSalarie(Salarie salarie, string numSecuManager = null)
+        {
+            EmployeTC.Add(salarie);
+            if (numSecuManager != null && Organigramme != null)
+            {
+                var managerNoeud = Organigramme.TrouverNoeud(numSecuManager);
+                if (managerNoeud != null)
+                {
+                    var nouveauNoeud = new NoeudEmploye(salarie);
+                    managerNoeud.AjouterSubordonne(nouveauNoeud);
+                }
+                else
+                {
+                    Console.WriteLine("Manager non trouvé.");
+                }
+            }
+            else
+            {
+                Organigramme = new NoeudEmploye(salarie); // Si aucun manager, c'est la racine
+            }
+            Console.WriteLine("Salarié ajouté avec succès !");
+        }
+
 
         public static void SupprimerSalarie()
         {
@@ -93,15 +132,18 @@ namespace TransConnectLib
                 Console.WriteLine("Salarié non trouvé !");
             }
         }
+        
 
         public static void ListerSalaries()
         {
-            Console.WriteLine("Liste des salariés : ");
-            foreach (Salarie salarie in EmployeTC)
+            if (Organigramme != null)
             {
-                Console.WriteLine(salarie);
+                NoeudEmploye.AfficherOrganigramme(Organigramme);
             }
-            Console.ReadKey();
+            else
+            {
+                Console.WriteLine("Aucun salarié dans l'organigramme.");
+            }
         }
 
 

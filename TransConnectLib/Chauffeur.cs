@@ -18,6 +18,14 @@ namespace TransConnectLib
         {
             
         }
+        public Chauffeur(string numSecu, string nom, string prenom, DateTime dateNaissance, 
+                        string adressePostale, string adresseMail, string telephone, 
+                        DateTime dateEntree, string poste, double salaire)
+                        : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone, 
+                        dateEntree, poste, salaire)
+        {
+            disponibilite=DateTime.Now;
+        }
         
          // Méthodes
 
