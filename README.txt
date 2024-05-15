@@ -12,6 +12,10 @@ Documentation de la classe Véhicule et des classes qui en héritent.
 Gérer les informations des salariés grâce à une classe EmployeeService, incluant l'embauche (AjoutSalarie), le licenciement (SupprimerSalarie), les mises à jour (ModifieSalarie) de leurs profils et enfin (ListerSalarie)
 Implémentation de l'organigramme dynamique qui change en fonction de si l'on ajoute des salariés etc. L'organigramme initial contient les membres de la société décrit dans le document pdf. 
 
+"""
+classes statiques pour GestionCommande, GestionSalarie et GestionClient pour offrir une approche plus simple et plus performante pour gérer des opérations globales et utilitaires dans l'application. De +, permet également de centraliser la gestion des ressources partagées et d'éviter les complications liées à la gestion de l'état des instances
+"""
+
 
 A FAIRE: 
 S'assurer que toutes les fonctionnalités du module de gestion des salariés fonctionnent comme prévu sans erreurs ni bugs.
