@@ -13,38 +13,38 @@ namespace TransConnectLib
         private string poste;
         private double salaire;
         public static NoeudEmploye Organigramme;
-        public static List<Salarie> EmployeTC = new List<Salarie>();
         public List<NoeudEmploye> Subordonnes;
-
 
         // Constructeurs pour la classe Salarie.
         public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance,
                       string adressePostale, string adresseMail, string telephone, DateTime dateEntree, string poste, double salaire) 
-                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone) // Salaire et poste connus
+                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
         {
             this.dateEntree = dateEntree;
             this.poste = poste;
             this.salaire = salaire;
             Subordonnes = new List<NoeudEmploye>();
         }
+
         public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale,
-                      string adresseMail, string telephone) 
-                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone) // Pas de date d'entrée + Salaire et poste inconnus
+                      string adresseMail, string telephone)
+                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
         {
             this.dateEntree = DateTime.Now;
             Subordonnes = new List<NoeudEmploye>();
         }
+
         public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale,
-                      string adresseMail, string telephone, DateTime dateEntree) 
-                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone) // Salaire et poste inconnus 
+                      string adresseMail, string telephone, DateTime dateEntree)
+                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
         {
             this.dateEntree = dateEntree;
             Subordonnes = new List<NoeudEmploye>();
         }
 
         public Salarie(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale,
-                      string adresseMail, string telephone, string poste, double salaire) 
-                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone) // Date d'entrée inconnue
+                      string adresseMail, string telephone, string poste, double salaire)
+                      : base(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone)
         {
             this.dateEntree = DateTime.Now;
             this.poste = poste;
@@ -55,100 +55,20 @@ namespace TransConnectLib
         // Propriétés de la classe Salarie.
         public string Poste
         {
-            get { return poste ; }
-            set{ poste = value ; }
+            get { return poste; }
+            set { poste = value; }
         }
 
         public double Salaire
         {
-            get { return salaire ; }
-            set{ salaire = value ; }
+            get { return salaire; }
+            set { salaire = value; }
         }
-        
+
         // Méthodes de la classe Salarie.
         public static int NbSalaries
         {
-            get { return EmployeTC.Count; }
+            get { return GestionSalaries.GetSalariesCount(); }
         }
-        public static void AjouterSalarie(Salarie salarie)
-        {
-            Console.WriteLine("Ajout d'un nouveau salarié...");
-            EmployeTC.Add(salarie);
-            Console.WriteLine("Salarié ajouté avec succès !");
-        }
-        // overload de la méthode AjouterSalarie pour associer un salarié à un manager (dans l'affichage de l'organigramme)
-        public static void AjouterSalarie(Salarie salarie, string numSecuManager = null)
-        {
-            EmployeTC.Add(salarie);
-            if (numSecuManager != null && Organigramme != null)
-            {
-                var managerNoeud = Organigramme.TrouverNoeud(numSecuManager);
-                if (managerNoeud != null)
-                {
-                    var nouveauNoeud = new NoeudEmploye(salarie);
-                    managerNoeud.AjouterSubordonne(nouveauNoeud);
-                }
-                else
-                {
-                    Console.WriteLine("Manager non trouvé.");
-                }
-            }
-            else
-            {
-                Organigramme = new NoeudEmploye(salarie); // Si aucun manager, c'est la racine
-            }
-            Console.WriteLine("Salarié ajouté avec succès !");
-        }
-
-
-        public static void SupprimerSalarie()
-        {
-            Console.WriteLine("Suppression d'un salarié...");
-            Console.WriteLine("Saisissez le numéro de sécurité sociale du salarié à supprimer : ");
-            string numSecu = Console.ReadLine();
-            Salarie salarieASupprimer = EmployeTC.FirstOrDefault(s => s.NumSecu == numSecu);
-            if (salarieASupprimer != null)
-            {
-                EmployeTC.Remove(salarieASupprimer);
-                Console.WriteLine("Salarié supprimé avec succès !");
-            }
-            else
-            {
-                Console.WriteLine("Salarié non trouvé !");
-            }
-            Console.ReadKey();
-        }
-    
-        public static void SupprimerSalarie(Salarie salarie)
-        {
-            Salarie salarieASupprimer = EmployeTC.FirstOrDefault(s => s.NumSecu == salarie.NumSecu);
-            if (salarieASupprimer != null)
-            {
-                EmployeTC.Remove(salarieASupprimer);
-                Console.WriteLine("Salarié supprimé avec succès !");
-            }
-            else
-            {
-                Console.WriteLine("Salarié non trouvé !");
-            }
-        }
-        
-
-        public static void ListerSalaries()
-        {
-            if (Organigramme != null)
-            {
-                NoeudEmploye.AfficherOrganigramme(Organigramme);
-            }
-            else
-            {
-                Console.WriteLine("Aucun salarié dans l'organigramme.");
-            }
-        }
-
-
     }
-
-
-    
 }

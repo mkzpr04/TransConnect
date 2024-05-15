@@ -33,8 +33,8 @@ namespace FlotteVéhicule
             this.Chauffeur = chauffeur;
             this.DateLivraison = dateLivraison;
             this.EtatLivraison = false; // Par défaut, la livraison n'est pas encore effectuée
-            this.NoteLivraison = 0;
-            this.Prix = CalculerPrix(); // Calcule le prix initial lors de la création de la commande
+            this.NoteLivraison = 0; // Selon la note du client, avantages.
+            this.Prix = CalculerPrix(); // Calcule le prixy lors de la création de la commande
         }
         public bool LivraisonEffectuee()
         {

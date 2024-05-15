@@ -28,7 +28,7 @@ namespace TransConnectApp
                         GérerLesSalariés();
                         break;
                     case "2":
-                        NoeudEmploye.AfficherOrganigramme(racine);
+                        GestionSalaries.ListerSalaries();
                         Console.ReadKey();
                         break;
                     case "3":
@@ -45,126 +45,66 @@ namespace TransConnectApp
         static void InitialiserEmployes()
         {
             // Création des salariés
-            //
-            // (string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale,
-            // string adresseMail, string telephone, string poste, double salaire) 
-            // Numéro de sécurité social en france (15 chiffres) : 
-
-            // Création des salariés et de l'organigramme initial
             var directeurGeneral = new Salarie("184127645108946", "Mr Dupond", "", new DateTime(2003, 10, 10), "", "markdupond@gmail.com", "", "Directeur Général", 10000.0);
             racine = new NoeudEmploye(directeurGeneral);
             Salarie.Organigramme = racine; //initialisation de racine et Salarie.Organigramme
 
             var directriceCommerciale = new Salarie("084127645108947", "Mme Fiesta", "", new DateTime(2005, 09, 05), "", "fiesta@gmail.com", "", "Directrice Commerciale", 8000.0);
-            Salarie.AjouterSalarie(directriceCommerciale, "184127645108946"); // On ajoute le salarié directriceCommerciale à la liste des salariés avec comme manager le directeur général ('184127645108946')
+            GestionSalaries.AjouterSalarie(directriceCommerciale, "184127645108946");
 
             var directeurOperations = new Salarie("184127645108948", "Mr Fetard", "", new DateTime(2006, 08, 06), "", "fetard@yahoo.fr", "", "Directeur des opérations", 9000.0);
-            Salarie.AjouterSalarie(directeurOperations, "184127645108946"); // de même pour le directeur des opérations
+            GestionSalaries.AjouterSalarie(directeurOperations, "184127645108946");
 
             var directriceRH = new Salarie("084127645108949", "Mme Joyeuse", "", new DateTime(2007, 07, 07), "", "joyeuse@hotmail.fr", "", "Directrice des Ressources Humaines", 8500.0);
-            Salarie.AjouterSalarie(directriceRH, "184127645108946"); 
+            GestionSalaries.AjouterSalarie(directriceRH, "184127645108946");
 
             var directeurFinancier = new Salarie("184127645108950", "Mr GripSous", "", new DateTime(2008, 06, 08), "", "gripsous@gmail.com", "", "Directeur Financier", 9500.0);
-            Salarie.AjouterSalarie(directeurFinancier, "184127645108946");
-        
+            GestionSalaries.AjouterSalarie(directeurFinancier, "184127645108946");
+
             var commercial1 = new Salarie("184127645108951", "Mr Forge", "", new DateTime(2009, 05, 09), "", "forge@gmail.com", "", "Commercial", 7000.0);
-            Salarie.AjouterSalarie(commercial1, "084127645108947");
+            GestionSalaries.AjouterSalarie(commercial1, "084127645108947");
 
             var commercial2 = new Salarie("084127645108952", "Mme Fermi", "", new DateTime(2005, 10, 25), "", "fermi@hotmail.fr", "", "Commerciale", 7500.0);
-            Salarie.AjouterSalarie(commercial2, "084127645108947");
-            
+            GestionSalaries.AjouterSalarie(commercial2, "084127645108947");
+
             var chefEquipe1 = new Salarie("084127645108953", "Mr Royal", "", new DateTime(2003, 10, 10), "", "royal@yahoo.fr", "", "Chef Equipe", 8500.0);
-            Salarie.AjouterSalarie(chefEquipe1, "184127645108948");
+            GestionSalaries.AjouterSalarie(chefEquipe1, "184127645108948");
 
             var chauffeur1 = new Chauffeur("184127645108954", "Mr Romu", "", new DateTime(2005, 09, 05), "", "romu@yahoo.Fr", "", new DateTime(2006, 08, 06), "Chauffeur", 1000.0, DateTime.Now);
-            Salarie.AjouterSalarie(chauffeur1, "084127645108953");
+            GestionSalaries.AjouterSalarie(chauffeur1, "084127645108953");
 
             var chauffeur2 = new Chauffeur("084127645108955", "Mr Romi", "", new DateTime(2008, 06, 08), "", "romi@gmail.com", "", new DateTime(2009, 02, 19), "Chauffeur", 1000.0, DateTime.Now);
-            Salarie.AjouterSalarie(chauffeur2, "084127645108953");
+            GestionSalaries.AjouterSalarie(chauffeur2, "084127645108953");
 
             var chauffeur3 = new Chauffeur("184127645108956", "Mr Rami", "", new DateTime(2007, 07, 07), "", "rami@yahoo.fr", "", new DateTime(2008, 06, 08), "Chauffeur", 1000.0, DateTime.Now);
-            Salarie.AjouterSalarie(chauffeur3, "084127645108953");
+            GestionSalaries.AjouterSalarie(chauffeur3, "084127645108953");
 
             var chefEquipe2 = new Salarie("084127645108957", "Mme Prince", "", new DateTime(2005, 10, 25), "", "prince@yahoo.fr", "", "Chef d'Equipe", 8000.0);
-            Salarie.AjouterSalarie(chefEquipe2, "184127645108948");
+            GestionSalaries.AjouterSalarie(chefEquipe2, "184127645108948");
 
             var chauffeur4 = new Chauffeur("184127645108958", "Mme Rome", "", new DateTime(2003, 10, 10), "", "rome@yahoo.fr", "", new DateTime(2005, 09, 05), "Chauffeur", 1000.0, DateTime.Now);
-            Salarie.AjouterSalarie(chauffeur4, "084127645108957");
+            GestionSalaries.AjouterSalarie(chauffeur4, "084127645108957");
 
             var chauffeur5 = new Chauffeur("084127645108959", "Mme Rimou", "", new DateTime(2005, 09, 05), "", "rimou@hotmail.fr", "", new DateTime(2006, 03, 15), "Chauffeur", 1000.0, DateTime.Now);
-            Salarie.AjouterSalarie(chauffeur5, "084127645108957");
+            GestionSalaries.AjouterSalarie(chauffeur5, "084127645108957");
 
             var formation = new Salarie("184127645108960", "Mme Couleur", "", new DateTime(2005, 10, 25), "", "couleur@yahoo.fr", "", "Formation", 5000.0);
-            Salarie.AjouterSalarie(formation, "084127645108949");
+            GestionSalaries.AjouterSalarie(formation, "084127645108949");
 
             var contrats = new Salarie("084127645108961", "Mme TouteLeMonde", "", new DateTime(2005, 10, 25), "", "toutelemonde@yahoo.fr", "", "Contrats", 6000.0);
-            Salarie.AjouterSalarie(contrats, "084127645108949");
+            GestionSalaries.AjouterSalarie(contrats, "084127645108949");
 
             var directionComptable = new Salarie("184127645108962", "Mr Picsou", "", new DateTime(2005, 05, 29), "", "picsou@yahoo.fr", "", "Direction comptable", 7000.0);
-            Salarie.AjouterSalarie(directionComptable, "184127645108950");
+            GestionSalaries.AjouterSalarie(directionComptable, "184127645108950");
 
             var comptable1 = new Salarie("084127645108963", "Mme Fournier", "", new DateTime(2005, 01, 10), "", "fournier@hotmail.fr", "", "Comptable", 8000.0);
-            Salarie.AjouterSalarie(comptable1, "184127645108962");
+            GestionSalaries.AjouterSalarie(comptable1, "184127645108962");
 
             var comptable2 = new Salarie("084127645108964", "Mme Gautier", "", new DateTime(2005, 07, 10), "", "gautier@gmail.com", "", "Comptable", 9000.0);
-            Salarie.AjouterSalarie(comptable2, "184127645108962");
+            GestionSalaries.AjouterSalarie(comptable2, "184127645108962");
 
             var controleurGestion = new Salarie("184127645108965", "Mr GrosSous", "", new DateTime(2005, 12, 18), "", "grossous@gmail.com", "", "Controleur de Gestion", 7000.0);
-            Salarie.AjouterSalarie(controleurGestion, "184127645108950");
-            // Création des noeuds de l'arbre
-            racine = new NoeudEmploye(directeurGeneral);
-            var noeudCommercial = new NoeudEmploye(directriceCommerciale);
-            var noeudOperations = new NoeudEmploye(directeurOperations);
-            var noeudRH = new NoeudEmploye(directriceRH);
-            var noeudFinancier = new NoeudEmploye(directeurFinancier);
-
-            var noeudCom1 = new NoeudEmploye(commercial1);
-            var noeudCom2 = new NoeudEmploye(commercial2);
-
-            var noeudChef1 = new NoeudEmploye(chefEquipe1);
-            var noeudChauffeur1 = new NoeudEmploye(chauffeur1);
-            var noeudChauffeur2 = new NoeudEmploye(chauffeur2);
-            var noeudChauffeur3 = new NoeudEmploye(chauffeur3);
-
-            var noeudChef2 = new NoeudEmploye(chefEquipe2);
-            var noeudChauffeur4 = new NoeudEmploye(chauffeur4);
-            var noeudChauffeur5 = new NoeudEmploye(chauffeur5);
-
-            var noeudFormation = new NoeudEmploye(formation);
-            var noeudContrats = new NoeudEmploye(contrats);
-
-            var noeudComptable = new NoeudEmploye(directionComptable);
-            var noeudComp1 = new NoeudEmploye(comptable1);
-            var noeudComp2 = new NoeudEmploye(comptable2);
-
-            var noeudControleur = new NoeudEmploye(controleurGestion);
-
-            // Construction de l'arbre hiérarchique
-            noeudCommercial.AjouterSubordonne(noeudCom1);
-            noeudCommercial.AjouterSubordonne(noeudCom2);
-
-            noeudOperations.AjouterSubordonne(noeudChef1);
-            noeudChef1.AjouterSubordonne(noeudChauffeur1);
-            noeudChef1.AjouterSubordonne(noeudChauffeur2);
-            noeudChef1.AjouterSubordonne(noeudChauffeur3);
-
-            noeudOperations.AjouterSubordonne(noeudChef2);
-            noeudChef2.AjouterSubordonne(noeudChauffeur4);
-            noeudChef2.AjouterSubordonne(noeudChauffeur5);
-
-            noeudRH.AjouterSubordonne(noeudFormation);
-            noeudRH.AjouterSubordonne(noeudContrats);
-
-            noeudFinancier.AjouterSubordonne(noeudComptable);
-            noeudComptable.AjouterSubordonne(noeudComp1);
-            noeudComptable.AjouterSubordonne(noeudComp2);
-
-            noeudFinancier.AjouterSubordonne(noeudControleur);
-
-            racine.AjouterSubordonne(noeudCommercial);
-            racine.AjouterSubordonne(noeudOperations);
-            racine.AjouterSubordonne(noeudRH);
-            racine.AjouterSubordonne(noeudFinancier);
+            GestionSalaries.AjouterSalarie(controleurGestion, "184127645108950");
         }
 
         static void GérerLesSalariés()
@@ -196,10 +136,10 @@ namespace TransConnectApp
                         ModifierSalarie();
                         break;
                     case "4":
-                        Salarie.SupprimerSalarie();
+                        SupprimerSalarie();
                         break;
                     case "5":
-                        Salarie.ListerSalaries();
+                        GestionSalaries.ListerSalaries();
                         Console.ReadKey();
                         break;
                     case "6":
@@ -281,15 +221,14 @@ namespace TransConnectApp
                 Console.Write("Entrez le numéro de sécurité sociale du manager: ");
                 string numSecuManager = Console.ReadLine();
                 Salarie nouveauSalarie = new Salarie(numSecu, nom, prenom, dateNaissance, adresse, email, telephone, dateEntree, poste, salaire);
-                Salarie.AjouterSalarie(nouveauSalarie, numSecuManager);
+                GestionSalaries.AjouterSalarie(nouveauSalarie, numSecuManager);
             }
             else
             {
                 Salarie nouveauSalarie = new Salarie(numSecu, nom, prenom, dateNaissance, adresse, email, telephone, dateEntree, poste, salaire);
-                Salarie.AjouterSalarie(nouveauSalarie);
+                GestionSalaries.AjouterSalarie(nouveauSalarie);
             }
         }
-
 
         static void AjouterChauffeur()
         {
@@ -323,12 +262,12 @@ namespace TransConnectApp
                 Console.Write("Entrez le numéro de sécurité sociale du manager: ");
                 string numSecuManager = Console.ReadLine();
                 Chauffeur nouveauChauffeur = new Chauffeur(numSecu, nom, prenom, dateNaissance, adresse, email, telephone, dateEntree, "Chauffeur", salaire, disponibilite);
-                Salarie.AjouterSalarie(nouveauChauffeur, numSecuManager);
+                GestionSalaries.AjouterSalarie(nouveauChauffeur, numSecuManager);
             }
             else
             {
                 Chauffeur nouveauChauffeur = new Chauffeur(numSecu, nom, prenom, dateNaissance, adresse, email, telephone, dateEntree, "Chauffeur", salaire, disponibilite);
-                Salarie.AjouterSalarie(nouveauChauffeur);
+                GestionSalaries.AjouterSalarie(nouveauChauffeur);
             }
         }
 
@@ -342,18 +281,21 @@ namespace TransConnectApp
             Console.Write("Entrez le nouveau salaire: ");
             double salaire = double.Parse(Console.ReadLine());
 
-            var employe = Salarie.EmployeTC.FirstOrDefault(e => e.NumSecu == numSecu);
-            if (employe != null)
+            GestionSalaries.ModifierSalarie(numSecu, poste, salaire);
+        }
+
+        static void SupprimerSalarie()
+        {
+            Console.WriteLine("Suppression d'un salarié...");
+            Console.WriteLine("Saisissez le numéro de sécurité sociale du salarié à supprimer : ");
+            string numSecu = Console.ReadLine();
+            GestionSalaries.SupprimerSalarie(numSecu);
+            // Supprimer le salarie de l'organigramme.
+            NoeudEmploye noeud = racine.TrouverNoeud(numSecu);
+            if (noeud != null)
             {
-                employe.Poste = poste;
-                employe.Salaire = salaire;
-                Console.WriteLine("Salarié modifié avec succès !");
+                racine.SupprimerSubordonne(noeud);
             }
-            else
-            {
-                Console.WriteLine("Salarié non trouvé !");
-            }
-            Console.ReadKey();
         }
     }
 }
