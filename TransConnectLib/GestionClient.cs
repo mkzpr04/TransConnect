@@ -68,5 +68,10 @@ namespace TransConnectLib
                 Console.WriteLine($"ID: {client.clientId}, Nom: {client.Nom}, Prénom: {client.Prenom}, Ville: {client.ville}, Montant Achats: {client.montantAchatsCumules}");
             }
         }
+        
+        public static Client RechercherClient(string clientId)
+        {
+            return clients.FirstOrDefault(c => c.clientId == clientId);
+        }
     }
 }

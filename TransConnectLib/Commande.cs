@@ -20,7 +20,7 @@ namespace TransConnectLib
     public DateTime DateLivraison { get; private set; }
     public bool EtatLivraison { get; private set; }
     public float NoteLivraison { get; private set; }
-
+    
 
     // Constructeur pour la classe Commande
     public Commande(string numeroCommande, Client client, string villeDepart, string villeArrivee, Vehicule vehicule, Chauffeur chauffeur, DateTime dateLivraison)

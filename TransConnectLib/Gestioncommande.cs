@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TransConnectLib;
-using System.IO;
 
 namespace TransConnectLib
 {
@@ -27,6 +24,80 @@ namespace TransConnectLib
 
         public static void CreerCommande()
         {
+            Console.WriteLine("Création d'une nouvelle commande...");
+
+            Console.Write("Entrez l'ID du client : ");
+            string clientId = Console.ReadLine();
+            Client client = GestionClients.RechercherClient(clientId);
+            if (client == null)
+            {
+                Console.WriteLine("Client non trouvé, veuillez créer un nouveau client.");
+                client = CreerClient();
+            }
+
+            Console.Write("Entrez la ville de départ : ");
+            string villeDepart = Console.ReadLine();
+
+            Console.Write("Entrez la ville d'arrivée : ");
+            string villeArrivee = Console.ReadLine();
+
+            Vehicule vehicule = CreerVehicule();
+
+            Console.Write("Entrez la date de livraison (yyyy-MM-dd) : ");
+            DateTime dateLivraison = DateTime.Parse(Console.ReadLine());
+
+            List<Chauffeur> chauffeursDisponibles = ObtenirChauffeursDisponibles(dateLivraison);
+            if (chauffeursDisponibles.Count == 0)
+            {
+                Console.WriteLine("Aucun chauffeur disponible à cette date.");
+                return;
+            }
+
+            Console.WriteLine("Chauffeurs disponibles :");
+            for (int i = 0; i < chauffeursDisponibles.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {chauffeursDisponibles[i].Nom} {chauffeursDisponibles[i].Prenom}");
+            }
+
+            Console.Write("Choisissez un chauffeur : ");
+            int choixChauffeur = int.Parse(Console.ReadLine()) - 1;
+            if (choixChauffeur < 0 || choixChauffeur >= chauffeursDisponibles.Count)
+            {
+                Console.WriteLine("Choix invalide.");
+                return;
+            }
+
+            Chauffeur chauffeur = chauffeursDisponibles[choixChauffeur];
+            chauffeur.AjouterJourNonDisponible(dateLivraison);  // Marquer le chauffeur comme non disponible pour ce jour
+
+            string numeroCommande = Guid.NewGuid().ToString();
+            Commande nouvelleCommande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison);
+            commandes.Add(nouvelleCommande);
+            Console.WriteLine("Nouvelle commande créée avec succès.");
+        }
+
+        private static List<Chauffeur> ObtenirChauffeursDisponibles(DateTime dateLivraison)
+        {
+            List<Chauffeur> chauffeursDisponibles = new List<Chauffeur>();
+            AjouterChauffeursDisponibles(Salarie.Organigramme, chauffeursDisponibles, dateLivraison);
+            return chauffeursDisponibles;
+        }
+
+        private static void AjouterChauffeursDisponibles(NoeudEmploye noeud, List<Chauffeur> chauffeursDisponibles, DateTime dateLivraison)
+        {
+            if (noeud.Salarie is Chauffeur chauffeur && chauffeur.EstDisponible(dateLivraison))
+            {
+                chauffeursDisponibles.Add(chauffeur);
+            }
+
+            foreach (var sub in noeud.Subordonnes)
+            {
+                AjouterChauffeursDisponibles(sub, chauffeursDisponibles, dateLivraison);
+            }
+        }
+
+        private static Client CreerClient()
+        {
             Console.WriteLine("Création d'un nouveau client...");
             Console.Write("Entrez le numéro de sécurité sociale : ");
             string numSecu = Console.ReadLine();
@@ -48,32 +119,8 @@ namespace TransConnectLib
             string ville = Console.ReadLine();
 
             Client client = new Client(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone, clientId, ville);
-
-            Console.Write("Entrez la ville de départ : ");
-            string villeDepart = Console.ReadLine();
-
-            Console.Write("Entrez la ville d'arrivée : ");
-            string villeArrivee = Console.ReadLine();
-
-            Vehicule vehicule = CreerVehicule();
-
-            Console.Write("Entrez le numéro de sécurité sociale du chauffeur : ");
-            string chauffeurNumSecu = Console.ReadLine();
-            Chauffeur chauffeur = (Chauffeur)Salarie.Organigramme.Salarie.Subordonnes.SelectMany(n => n.Subordonnes).Select(n => n.Salarie).FirstOrDefault(c => c.NumSecu == chauffeurNumSecu);
-
-            if (chauffeur == null)
-            {
-                Console.WriteLine("Chauffeur non trouvé.");
-                return;
-            }
-
-            Console.Write("Entrez la date de livraison (yyyy-MM-dd) : ");
-            DateTime dateLivraison = DateTime.Parse(Console.ReadLine());
-
-            string numeroCommande = Guid.NewGuid().ToString();
-            Commande nouvelleCommande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison);
-            commandes.Add(nouvelleCommande);
-            Console.WriteLine("Nouvelle commande créée avec succès.");
+            GestionClients.AjouterClient(client);
+            return client;
         }
 
         private static Vehicule CreerVehicule()
@@ -164,18 +211,29 @@ namespace TransConnectLib
                 Vehicule vehicule = CreerVehicule();
 
                 Console.WriteLine("Modification du chauffeur...");
-                Console.Write("Entrez le nouveau numéro de sécurité sociale du chauffeur : ");
-                string chauffeurNumSecu = Console.ReadLine();
-                Chauffeur chauffeur = (Chauffeur)Salarie.Organigramme.Salarie.Subordonnes
-                    .SelectMany(n => n.Subordonnes)
-                    .Select(n => n.Salarie)
-                    .FirstOrDefault(c => c.NumSecu == chauffeurNumSecu);
-                
-                if (chauffeur == null)
+                List<Chauffeur> chauffeursDisponibles = ObtenirChauffeursDisponibles(dateLivraison);
+                if (chauffeursDisponibles.Count == 0)
                 {
-                    Console.WriteLine("Chauffeur non trouvé.");
+                    Console.WriteLine("Aucun chauffeur disponible à cette date.");
                     return;
                 }
+
+                Console.WriteLine("Chauffeurs disponibles :");
+                for (int i = 0; i < chauffeursDisponibles.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {chauffeursDisponibles[i].Nom} {chauffeursDisponibles[i].Prenom}");
+                }
+
+                Console.Write("Choisissez un chauffeur : ");
+                int choixChauffeur = int.Parse(Console.ReadLine()) - 1;
+                if (choixChauffeur < 0 || choixChauffeur >= chauffeursDisponibles.Count)
+                {
+                    Console.WriteLine("Choix invalide.");
+                    return;
+                }
+
+                Chauffeur chauffeur = chauffeursDisponibles[choixChauffeur];
+                chauffeur.AjouterJourNonDisponible(dateLivraison);  // Marquer le chauffeur comme non disponible pour ce jour
 
                 commande.ModifierCommande(vehicule, chauffeur, villeDepart, villeArrivee, dateLivraison, prix);
                 Console.WriteLine("Commande modifiée avec succès.");
@@ -226,11 +284,9 @@ namespace TransConnectLib
                 (clientNom == null || c.Client.Nom == clientNom));
         }
 
-       
         private static Chauffeur TrouverChauffeur(string numSecu)
         {
             return Salarie.Organigramme?.TrouverNoeud(numSecu)?.Salarie as Chauffeur;
         }
-
     }
 }

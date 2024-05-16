@@ -17,8 +17,9 @@ namespace TransConnectApp
                 Console.WriteLine("Bienvenue dans le Système de Gestion TransConnect");
                 Console.WriteLine("1. Gérer les Salariés");
                 Console.WriteLine("2. Gérer les Commandes");
-                Console.WriteLine("3. Voir l'Organigramme");
-                Console.WriteLine("4. Quitter");
+                Console.WriteLine("3. Gérer les Clients");
+                Console.WriteLine("4. Voir l'Organigramme");
+                Console.WriteLine("5. Quitter");
 
                 Console.Write("Veuillez entrer votre choix : ");
                 var choix = Console.ReadLine();
@@ -32,10 +33,13 @@ namespace TransConnectApp
                         GérerLesCommandes();
                         break;
                     case "3":
+                        GérerLesClients();
+                        break;
+                    case "4":
                         GestionSalaries.ListerSalaries();
                         Console.ReadKey();
                         break;
-                    case "4":
+                    case "5":
                         systemeActif = false;
                         break;
                     default:
@@ -74,22 +78,22 @@ namespace TransConnectApp
             var chefEquipe1 = new Salarie("084127645108953", "Mr Royal", "", new DateTime(2003, 10, 10), "", "royal@yahoo.fr", "", "Chef Equipe", 8500.0);
             GestionSalaries.AjouterSalarie(chefEquipe1, "184127645108948");
 
-            var chauffeur1 = new Chauffeur("184127645108954", "Mr Romu", "", new DateTime(2005, 09, 05), "", "romu@yahoo.Fr", "", new DateTime(2006, 08, 06), "Chauffeur", 1000.0, DateTime.Now);
+            var chauffeur1 = new Chauffeur("184127645108954", "Mr Romu", "", new DateTime(2005, 09, 05), "", "romu@yahoo.Fr", "", new DateTime(2006, 08, 06), "Chauffeur", 1000.0);
             GestionSalaries.AjouterSalarie(chauffeur1, "084127645108953");
 
-            var chauffeur2 = new Chauffeur("084127645108955", "Mr Romi", "", new DateTime(2008, 06, 08), "", "romi@gmail.com", "", new DateTime(2009, 02, 19), "Chauffeur", 1000.0, DateTime.Now);
+            var chauffeur2 = new Chauffeur("084127645108955", "Mr Romi", "", new DateTime(2008, 06, 08), "", "romi@gmail.com", "", new DateTime(2009, 02, 19), "Chauffeur", 1000.0);
             GestionSalaries.AjouterSalarie(chauffeur2, "084127645108953");
 
-            var chauffeur3 = new Chauffeur("184127645108956", "Mr Rami", "", new DateTime(2007, 07, 07), "", "rami@yahoo.fr", "", new DateTime(2008, 06, 08), "Chauffeur", 1000.0, DateTime.Now);
+            var chauffeur3 = new Chauffeur("184127645108956", "Mr Rami", "", new DateTime(2007, 07, 07), "", "rami@yahoo.fr", "", new DateTime(2008, 06, 08), "Chauffeur", 1000.0);
             GestionSalaries.AjouterSalarie(chauffeur3, "084127645108953");
 
             var chefEquipe2 = new Salarie("084127645108957", "Mme Prince", "", new DateTime(2005, 10, 25), "", "prince@yahoo.fr", "", "Chef d'Equipe", 8000.0);
             GestionSalaries.AjouterSalarie(chefEquipe2, "184127645108948");
 
-            var chauffeur4 = new Chauffeur("184127645108958", "Mme Rome", "", new DateTime(2003, 10, 10), "", "rome@yahoo.fr", "", new DateTime(2005, 09, 05), "Chauffeur", 1000.0, DateTime.Now);
+            var chauffeur4 = new Chauffeur("184127645108958", "Mme Rome", "", new DateTime(2003, 10, 10), "", "rome@yahoo.fr", "", new DateTime(2005, 09, 05), "Chauffeur", 1000.0);
             GestionSalaries.AjouterSalarie(chauffeur4, "084127645108957");
 
-            var chauffeur5 = new Chauffeur("084127645108959", "Mme Rimou", "", new DateTime(2005, 09, 05), "", "rimou@hotmail.fr", "", new DateTime(2006, 03, 15), "Chauffeur", 1000.0, DateTime.Now);
+            var chauffeur5 = new Chauffeur("084127645108959", "Mme Rimou", "", new DateTime(2005, 09, 05), "", "rimou@hotmail.fr", "", new DateTime(2006, 03, 15), "Chauffeur", 1000.0);
             GestionSalaries.AjouterSalarie(chauffeur5, "084127645108957");
 
             var formation = new Salarie("184127645108960", "Mme Couleur", "", new DateTime(2005, 10, 25), "", "couleur@yahoo.fr", "", "Formation", 5000.0);
@@ -156,20 +160,18 @@ namespace TransConnectApp
                 }
             }
         }
-        static void GérerLesCommandes()
+        static void GérerLesClients()
         {
             bool retour = true;
             while (retour)
             {
                 Console.Clear();
-                Console.WriteLine("Gestion des Commandes");
-                Console.WriteLine("1. Créer une nouvelle commande");
-                Console.WriteLine("2. Afficher les détails d'une commande");
-                Console.WriteLine("3. Modifier une commande existante");
-                Console.WriteLine("4. Annuler une commande");
-                Console.WriteLine("5. Lister toutes les commandes");
-                Console.WriteLine("6. Rechercher des commandes");
-                Console.WriteLine("7. Retour");
+                Console.WriteLine("Gestion des Clients");
+                Console.WriteLine("1. Ajouter un client");
+                Console.WriteLine("2. Modifier un client");
+                Console.WriteLine("3. Supprimer un client");
+                Console.WriteLine("4. Lister tous les clients");
+                Console.WriteLine("5. Retour");
 
                 Console.Write("Veuillez choisir une option : ");
                 var choix = Console.ReadLine();
@@ -177,51 +179,19 @@ namespace TransConnectApp
                 switch (choix)
                 {
                     case "1":
-                        GestionCommande.CreerCommande();
+                        AjouterClient();
                         break;
                     case "2":
-                        Console.Write("Entrez le numéro de la commande : ");
-                        string numeroCommande = Console.ReadLine();
-                        GestionCommande.AfficherDetails(numeroCommande);
-                        Console.ReadKey();
+                        ModifierClient();
                         break;
                     case "3":
-                        GestionCommande.ModifierCommande();
+                        SupprimerClient();
                         break;
                     case "4":
-                        GestionCommande.AnnulerCommande();
+                        ListerClients();
+                        Console.ReadKey();
                         break;
                     case "5":
-                        GestionCommande.ListerCommandes();
-                        Console.ReadKey();
-                        break;
-                    case "6":
-                        Console.WriteLine("Entrez les critères de recherche (laissez vide pour ignorer un critère) :");
-                        Console.Write("Ville de départ : ");
-                        string villeDepart = Console.ReadLine();
-                        Console.Write("Ville d'arrivée : ");
-                        string villeArrivee = Console.ReadLine();
-                        Console.Write("Date de livraison (yyyy-MM-dd) : ");
-                        string dateLivraisonStr = Console.ReadLine();
-                        DateTime? dateLivraison = string.IsNullOrEmpty(dateLivraisonStr) ? (DateTime?)null : DateTime.Parse(dateLivraisonStr);
-                        Console.Write("Nom du client : ");
-                        string clientNom = Console.ReadLine();
-
-                        var resultats = GestionCommande.RechercherCommandes(
-                            string.IsNullOrEmpty(villeDepart) ? null : villeDepart,
-                            string.IsNullOrEmpty(villeArrivee) ? null : villeArrivee,
-                            dateLivraison,
-                            string.IsNullOrEmpty(clientNom) ? null : clientNom
-                        );
-
-                        foreach (var commande in resultats)
-                        {
-                            Console.WriteLine(commande);
-                            Console.WriteLine();
-                        }
-                        Console.ReadKey();
-                        break;
-                    case "7":
                         retour = false;
                         break;
                     default:
@@ -231,6 +201,54 @@ namespace TransConnectApp
                 }
             }
         }
+        static void GérerLesCommandes()
+{
+    bool retour = true;
+    while (retour)
+    {
+        Console.Clear();
+        Console.WriteLine("Gestion des Commandes");
+        Console.WriteLine("1. Créer une commande");
+        Console.WriteLine("2. Modifier une commande");
+        Console.WriteLine("3. Annuler une commande");
+        Console.WriteLine("4. Afficher les détails d'une commande");
+        Console.WriteLine("5. Lister toutes les commandes");
+        Console.WriteLine("6. Retour");
+
+        Console.Write("Veuillez choisir une option : ");
+        var choix = Console.ReadLine();
+
+        switch (choix)
+        {
+            case "1":
+                GestionCommande.CreerCommande();
+                break;
+            case "2":
+                GestionCommande.ModifierCommande();
+                break;
+            case "3":
+                GestionCommande.AnnulerCommande();
+                break;
+            case "4":
+                Console.Write("Entrez le numéro de la commande : ");
+                string numeroCommande = Console.ReadLine();
+                GestionCommande.AfficherDetails(numeroCommande);
+                break;
+            case "5":
+                GestionCommande.ListerCommandes();
+                Console.ReadKey();
+                break;
+            case "6":
+                retour = false;
+                break;
+            default:
+                Console.WriteLine("Choix invalide. Veuillez réessayer.");
+                Console.ReadKey();
+                break;
+        }
+    }
+}
+
 
         static void AjouterSalarie()
         {
@@ -312,40 +330,38 @@ namespace TransConnectApp
         static void AjouterChauffeur()
         {
             Console.WriteLine("Ajout d'un nouveau chauffeur...");
-            Console.Write("Entrez le numéro de sécurité sociale: ");
+            Console.Write("Entrez le numéro de sécurité sociale : ");
             string numSecu = Console.ReadLine();
-            Console.Write("Entrez le nom: ");
+            Console.Write("Entrez le nom : ");
             string nom = Console.ReadLine();
-            Console.Write("Entrez le prénom: ");
+            Console.Write("Entrez le prénom : ");
             string prenom = Console.ReadLine();
-            Console.Write("Entrez la date de naissance (yyyy-mm-dd): ");
+            Console.Write("Entrez la date de naissance (yyyy-MM-dd) : ");
             DateTime dateNaissance = DateTime.Parse(Console.ReadLine());
-            Console.Write("Entrez l'adresse postale: ");
-            string adresse = Console.ReadLine();
-            Console.Write("Entrez l'email: ");
-            string email = Console.ReadLine();
-            Console.Write("Entrez le téléphone: ");
+            Console.Write("Entrez l'adresse postale : ");
+            string adressePostale = Console.ReadLine();
+            Console.Write("Entrez l'adresse mail : ");
+            string adresseMail = Console.ReadLine();
+            Console.Write("Entrez le téléphone : ");
             string telephone = Console.ReadLine();
-            Console.Write("Entrez la date d'entrée (yyyy-mm-dd): ");
+            Console.Write("Entrez la date d'entrée (yyyy-MM-dd) : ");
             DateTime dateEntree = DateTime.Parse(Console.ReadLine());
-            Console.Write("Entrez le salaire: ");
+            Console.Write("Entrez le salaire : ");
             double salaire = double.Parse(Console.ReadLine());
-            Console.Write("Entrez la disponibilité (yyyy-mm-dd): ");
-            DateTime disponibilite = DateTime.Parse(Console.ReadLine());
+
+            Chauffeur nouveauChauffeur = new Chauffeur(numSecu, nom, prenom, dateNaissance, adressePostale, adresseMail, telephone, dateEntree, "Chauffeur", salaire);
 
             Console.Write("Le chauffeur a-t-il un manager ? (oui/non) : ");
             string choixOptionnel = Console.ReadLine().ToLower();
 
             if (choixOptionnel == "oui")
             {
-                Console.Write("Entrez le numéro de sécurité sociale du manager: ");
+                Console.Write("Entrez le numéro de sécurité sociale du manager : ");
                 string numSecuManager = Console.ReadLine();
-                Chauffeur nouveauChauffeur = new Chauffeur(numSecu, nom, prenom, dateNaissance, adresse, email, telephone, dateEntree, "Chauffeur", salaire, disponibilite);
                 GestionSalaries.AjouterSalarie(nouveauChauffeur, numSecuManager);
             }
             else
             {
-                Chauffeur nouveauChauffeur = new Chauffeur(numSecu, nom, prenom, dateNaissance, adresse, email, telephone, dateEntree, "Chauffeur", salaire, disponibilite);
                 GestionSalaries.AjouterSalarie(nouveauChauffeur);
             }
         }
@@ -375,6 +391,86 @@ namespace TransConnectApp
             {
                 racine.SupprimerSubordonne(noeud);
             }
+        }
+        static void AjouterClient()
+        {
+            Console.WriteLine("Ajout d'un nouveau client...");
+            Console.Write("Entrez le numéro de sécurité sociale: ");
+            string numSecu = Console.ReadLine();
+            Console.Write("Entrez le nom: ");
+            string nom = Console.ReadLine();
+            Console.Write("Entrez le prénom: ");
+            string prenom = Console.ReadLine();
+            Console.Write("Entrez la date de naissance (yyyy-mm-dd): ");
+            DateTime dateNaissance = DateTime.Parse(Console.ReadLine());
+            Console.Write("Entrez l'adresse postale: ");
+            string adresse = Console.ReadLine();
+
+            string email = "";
+            bool isValidEmail = false;
+            while (!isValidEmail)
+            {
+                Console.Write("Entrez l'email: ");
+                email = Console.ReadLine();
+                if (!Personne.MailValide(email))
+                {
+                    Console.WriteLine("Format d'email invalide. Veuillez réessayer.");
+                }
+                else
+                {
+                    isValidEmail = true;
+                }
+            }
+
+            Console.Write("Entrez le téléphone: ");
+            string telephone = Console.ReadLine();
+            Console.Write("Entrez l'ID client: ");
+            string clientId = Console.ReadLine();
+            Console.Write("Entrez la ville: ");
+            string ville = Console.ReadLine();
+
+            Client nouveauClient = new Client(numSecu, nom, prenom, dateNaissance, adresse, email, telephone, clientId, ville);
+            GestionClients.AjouterClient(nouveauClient);
+        }
+        static void ModifierClient()
+        {
+            Console.WriteLine("Modification d'un client...");
+            Console.Write("Entrez l'ID du client à modifier: ");
+            string clientId = Console.ReadLine();
+            Console.Write("Entrez la nouvelle adresse postale: ");
+            string adressePostale = Console.ReadLine();
+            Console.Write("Entrez le nouvel email: ");
+            string email = Console.ReadLine();
+            Console.Write("Entrez le nouveau téléphone: ");
+            string telephone = Console.ReadLine();
+
+            GestionClients.ModifierClient(clientId, adressePostale, email, telephone);
+        }
+        static void SupprimerClient()
+        {
+            Console.WriteLine("Suppression d'un client...");
+            Console.WriteLine("Saisissez l'ID du client à supprimer : ");
+            string clientId = Console.ReadLine();
+            GestionClients.SupprimerClient(clientId);
+        }
+        static void ListerClients()
+        {
+            Console.WriteLine("Liste des clients : ");
+            Console.WriteLine("1. Par ordre alphabétique");
+            Console.WriteLine("2. Par ville");
+            Console.WriteLine("3. Par montant des achats cumulés");
+
+            Console.Write("Veuillez choisir un critère de tri : ");
+            var choix = Console.ReadLine();
+            string critere = choix switch
+            {
+                "1" => "alphabetique",
+                "2" => "ville",
+                "3" => "montant",
+                _ => "alphabetique"
+            };
+
+            GestionClients.AfficherClients(critere);
         }
     }
 }
