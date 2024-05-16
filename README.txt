@@ -42,6 +42,15 @@ Interface utilisateur pour les commandes : Développer des interfaces dans Trans
 Implémenter l'algorithme de Dijkstra pour le calcul de l'itinéraire le plus court pour les livraisons.
 Tests unitaires et d'intégration pour s'assurer que le module des commandes fonctionne correctement.
 
+A FAIRE ENCORE : 
+- classe commande 
+-- méthode livraison effectuée (qu'on puisse rentrer le numéro de commande dans la console et décider si c'est fait ou non)
+-- djikstra pour calculer distance 
+
+- classe gestion commande 
+-- réussir à sauvegarder les infos dans un fichier externe (qui se modif auto quand on le modif dans la console)
+-- pouvoir créer/modif/annuler une commande depuis la console comme c'est le cas avec l'organigramme
+
 Etpae 5: Module Statistiques
 
 
