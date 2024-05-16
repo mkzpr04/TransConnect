@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using TransConnectLib;
+using System.IO; 
 
 namespace TransConnectLib
 {
     public static class GestionCommande 
     {
         private static List<Commande> commandes = new List<Commande>();
+        private static string csvFilePath = "mettre le chemin du fichier"; //mettre le chemin du fichier
 
         public static void AfficherDetails(string numeroCommande)
         {
@@ -74,6 +76,7 @@ namespace TransConnectLib
             Commande nouvelleCommande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison);
             commandes.Add(nouvelleCommande);
             Console.WriteLine("Nouvelle commande créée avec succès.");
+            SauvegarderCommandesDansCSV();
         }
 
         private static List<Chauffeur> ObtenirChauffeursDisponibles(DateTime dateLivraison)
@@ -237,6 +240,7 @@ namespace TransConnectLib
 
                 commande.ModifierCommande(vehicule, chauffeur, villeDepart, villeArrivee, dateLivraison, prix);
                 Console.WriteLine("Commande modifiée avec succès.");
+                SauvegarderCommandesDansCSV();
             }
             else
             {
@@ -254,6 +258,7 @@ namespace TransConnectLib
             {
                 commande.AnnulerCommande();
                 Console.WriteLine("Commande annulée avec succès.");
+                SauvegarderCommandesDansCSV();
             }
             else
             {
@@ -288,5 +293,57 @@ namespace TransConnectLib
         {
             return Salarie.Organigramme?.TrouverNoeud(numSecu)?.Salarie as Chauffeur;
         }
+        private static void ChargerCommandesDepuisCSV()
+{
+    if (!File.Exists(csvFilePath))
+        return;
+
+    var lines = File.ReadAllLines(csvFilePath);
+
+    foreach (var line in lines.Skip(1))
+    {
+        var values = line.Split(',');
+
+        string numeroCommande = values[0];
+        Client client = new Client(values[1], values[2], values[3], DateTime.Parse(values[4]), values[5], values[6], values[7], values[8]);
+        string villeDepart = values[9];
+        string villeArrivee = values[10];
+        string nomClient = values[11];
+        string clientId = values[12];
+        float prix = float.Parse(values[13]);
+        string typeVehicule = values[14];
+        string nomChauffeur = values[15];
+        string numSecuChauffeur = values[16];
+        DateTime dateLivraison = DateTime.Parse(values[17]);
+        bool etatLivraison = bool.Parse(values[18]);
+        float noteLivraison = float.Parse(values[19]);
+
+        Chauffeur chauffeur = Salarie.EmployeTC.Find(c => c.NumSecu == numSecuChauffeur) as Chauffeur;
+        Vehicule vehicule = null;
+
+        Commande commande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison)
+        {
+            Prix = prix,
+            EtatLivraison = etatLivraison,
+            NoteLivraison = noteLivraison
+        };
+        commandes.Add(commande);
+    }
+}
+
+private static void SauvegarderCommandesDansCSV()
+{
+    var lines = new List<string>
+{
+    "NumeroCommande,ClientNumSecu,ClientNom,ClientPrenom,ClientDateNaissance,ClientAdressePostale,ClientAdresseMail,ClientTelephone,ClientID,VilleDepart,VilleArrivee,NomClient,ClientID,Prix,TypeVehicule,NomChauffeur,NumSecuChauffeur,DateLivraison,EtatLivraison,NoteLivraison"
+};
+
+    foreach (var commande in commandes)
+    {
+        lines.Add($"{commande.NumeroCommande},{commande.Client.NumSecu},{commande.Client.Nom},{commande.Client.Prenom},{commande.Client.DateNaissance:yyyy-MM-dd},{commande.Client.AdressePostale},{commande.Client.AdresseMail},{commande.Client.Telephone},{commande.Client.clientId},{commande.VilleDepart},{commande.VilleArrivee},{commande.Client.Nom},{commande.Client.clientId},{commande.Prix},{commande.Vehicule?.GetType().Name},{commande.Chauffeur.Nom},{commande.Chauffeur.NumSecu},{commande.DateLivraison:yyyy-MM-dd},{commande.EtatLivraison},{commande.NoteLivraison}");
+    }
+
+    File.WriteAllLines(csvFilePath, lines);
+}
     }
 }
