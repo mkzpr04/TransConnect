@@ -10,16 +10,16 @@ namespace TransConnectLib
     public class Commande
 {
     // attributs de la classe Commande
-    public string NumeroCommande { get; private set; }
-    public Client Client { get; private set; }
-    public string VilleDepart { get; private set; }
-    public string VilleArrivee { get; private set; }
-    public float Prix { get; private set; }
-    public Vehicule Vehicule { get; private set; }
-    public Chauffeur Chauffeur { get; private set; }
-    public DateTime DateLivraison { get; private set; }
-    public bool EtatLivraison { get; private set; }
-    public float NoteLivraison { get; private set; }
+    public string NumeroCommande { get;  set; }
+    public Client Client { get;  set; }
+    public string VilleDepart { get;  set; }
+    public string VilleArrivee { get;  set; }
+    public float Prix { get;  set; }
+    public Vehicule Vehicule { get;  set; }
+    public Chauffeur Chauffeur { get;  set; }
+    public DateTime DateLivraison { get;  set; }
+    public bool EtatLivraison { get;  set; }
+    public float NoteLivraison { get;  set; }
     
 
     // Constructeur pour la classe Commande
