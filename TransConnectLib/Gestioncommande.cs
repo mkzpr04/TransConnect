@@ -78,7 +78,6 @@ namespace TransConnectLib
         Commande nouvelleCommande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison);
         commandes.Add(nouvelleCommande);
         Console.WriteLine("Nouvelle commande créée avec succès.");
-        MettreAJourFichierExcel();
     }
 
     private Vehicule CreerVehicule()
@@ -180,7 +179,6 @@ namespace TransConnectLib
 
             commande.ModifierCommande(vehicule, chauffeur, villeDepart, villeArrivee, dateLivraison, prix);
             Console.WriteLine("Commande modifiée avec succès.");
-            MettreAJourFichierExcel();
         }
         else
         {
@@ -198,7 +196,6 @@ namespace TransConnectLib
         {
             commande.AnnulerCommande();
             Console.WriteLine("Commande annulée avec succès.");
-            MettreAJourFichierExcel();
         }
         else
         {
@@ -227,51 +224,6 @@ namespace TransConnectLib
             (villeArrivee == null || c.VilleArrivee == villeArrivee) &&
             (dateLivraison == null || c.DateLivraison.Date == dateLivraison.Value.Date) &&
             (clientNom == null || c.Client.Nom == clientNom));
-    }
-
-    private void MettreAJourFichierExcel()
-    {
-        string filePath = "commandes.xlsx";
-        FileInfo fileInfo = new FileInfo(filePath);
-
-        using (ExcelPackage package = new ExcelPackage(fileInfo))
-        {
-            ExcelWorksheet worksheet = package.Workbook.Worksheets.Count > 0 ? package.Workbook.Worksheets[0] : package.Workbook.Worksheets.Add("Commandes");
-
-            
-            worksheet.Cells.Clear();
-
-            
-            worksheet.Cells[1, 1].Value = "Numéro Commande";
-            worksheet.Cells[1, 2].Value = "Client";
-            worksheet.Cells[1, 3].Value = "Ville Départ";
-            worksheet.Cells[1, 4].Value = "Ville Arrivée";
-            worksheet.Cells[1, 5].Value = "Véhicule";
-            worksheet.Cells[1, 6].Value = "Chauffeur";
-            worksheet.Cells[1, 7].Value = "Date Livraison";
-            worksheet.Cells[1, 8].Value = "Prix";
-            worksheet.Cells[1, 9].Value = "Statut";
-            worksheet.Cells[1, 10].Value = "Note";
-
-            
-            int row = 2;
-            foreach (var commande in commandes)
-            {
-                worksheet.Cells[row, 1].Value = commande.NumeroCommande;
-                worksheet.Cells[row, 2].Value = commande.Client.Nom;
-                worksheet.Cells[row, 3].Value = commande.VilleDepart;
-                worksheet.Cells[row, 4].Value = commande.VilleArrivee;
-                worksheet.Cells[row, 5].Value = commande.Vehicule.Marque;
-                worksheet.Cells[row, 6].Value = commande.Chauffeur.Nom;
-                worksheet.Cells[row, 7].Value = commande.DateLivraison.ToString("yyyy-MM-dd");
-                worksheet.Cells[row, 8].Value = commande.Prix;
-                worksheet.Cells[row, 9].Value = commande.EtatLivraison ? "Effectuée" : "Non effectuée";
-                worksheet.Cells[row, 10].Value = commande.NoteLivraison;
-                row++;
-            }
-
-            package.Save();
-        }
     }
 
     public void AfficherMenu()
