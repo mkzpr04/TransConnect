@@ -8,16 +8,11 @@ using System.IO;
 
 namespace TransConnectLib
 {
-    public class GestionCommande 
+    public static class GestionCommande 
     {
-        private List<Commande> commandes;
+        private static List<Commande> commandes = new List<Commande>();
 
-        public GestionCommande()
-        {
-            commandes = new List<Commande>();
-        }
-
-        public void AfficherDetails(string numeroCommande)
+        public static void AfficherDetails(string numeroCommande)
         {
             Commande commande = RechercherCommande(numeroCommande);
             if (commande != null)
@@ -30,7 +25,7 @@ namespace TransConnectLib
             }
         }
 
-        public void CreerCommande()
+        public static void CreerCommande()
         {
             Console.WriteLine("Création d'un nouveau client...");
             Console.Write("Entrez le numéro de sécurité sociale : ");
@@ -82,7 +77,7 @@ namespace TransConnectLib
             MettreAJourFichierExcel();
         }
 
-        private Vehicule CreerVehicule()
+        private static Vehicule CreerVehicule()
         {
             Console.WriteLine("Choisissez un type de véhicule :");
             Console.WriteLine("1. Voiture");
@@ -146,7 +141,7 @@ namespace TransConnectLib
             }
         }
 
-        public void ModifierCommande()
+        public static void ModifierCommande()
         {
             Console.Write("Entrez le numéro de la commande à modifier : ");
             string numeroCommande = Console.ReadLine();
@@ -193,7 +188,7 @@ namespace TransConnectLib
             }
         }
 
-        public void AnnulerCommande()
+        public static void AnnulerCommande()
         {
             Console.Write("Entrez le numéro de la commande à annuler : ");
             string numeroCommande = Console.ReadLine();
@@ -211,7 +206,7 @@ namespace TransConnectLib
             }
         }
 
-        public void ListerCommandes()
+        public static void ListerCommandes()
         {
             foreach (var commande in commandes)
             {
@@ -220,12 +215,12 @@ namespace TransConnectLib
             }
         }
 
-        public Commande RechercherCommande(string numeroCommande)
+        public static Commande RechercherCommande(string numeroCommande)
         {
             return commandes.Find(c => c.NumeroCommande == numeroCommande);
         }
 
-        public List<Commande> RechercherCommandes(string villeDepart = null, string villeArrivee = null, DateTime? dateLivraison = null, string clientNom = null)
+        public static List<Commande> RechercherCommandes(string villeDepart = null, string villeArrivee = null, DateTime? dateLivraison = null, string clientNom = null)
         {
             return commandes.FindAll(c =>
                 (villeDepart == null || c.VilleDepart == villeDepart) &&
@@ -234,7 +229,7 @@ namespace TransConnectLib
                 (clientNom == null || c.Client.Nom == clientNom));
         }
 
-        private void MettreAJourFichierExcel()
+        private static void MettreAJourFichierExcel()
         {
             string filePath = "commandes.xlsx";
             FileInfo fileInfo = new FileInfo(filePath);
@@ -275,74 +270,10 @@ namespace TransConnectLib
                 package.Save();
             }
         }
-
-        public void AfficherMenu()
+        private static Chauffeur TrouverChauffeur(string numSecu)
         {
-            while (true)
-            {
-                Console.WriteLine("Menu de gestion des commandes :");
-                Console.WriteLine("1. Créer une nouvelle commande");
-                Console.WriteLine("2. Afficher les détails d'une commande");
-                Console.WriteLine("3. Modifier une commande existante");
-                Console.WriteLine("4. Annuler une commande");
-                Console.WriteLine("5. Lister toutes les commandes");
-                Console.WriteLine("6. Rechercher des commandes");
-                Console.WriteLine("7. Quitter");
-                Console.Write("Entrez votre choix : ");
-
-                int choix = int.Parse(Console.ReadLine());
-
-                switch (choix)
-                {
-                    case 1:
-                        CreerCommande();
-                        break;
-                    case 2:
-                        Console.Write("Entrez le numéro de la commande : ");
-                        string numeroCommande = Console.ReadLine();
-                        AfficherDetails(numeroCommande);
-                        break;
-                    case 3:
-                        ModifierCommande();
-                        break;
-                    case 4:
-                        AnnulerCommande();
-                        break;
-                    case 5:
-                        ListerCommandes();
-                        break;
-                    case 6:
-                        Console.WriteLine("Entrez les critères de recherche (laissez vide pour ignorer un critère) :");
-                        Console.Write("Ville de départ : ");
-                        string villeDepart = Console.ReadLine();
-                        Console.Write("Ville d'arrivée : ");
-                        string villeArrivee = Console.ReadLine();
-                        Console.Write("Date de livraison (yyyy-MM-dd) : ");
-                        string dateLivraisonStr = Console.ReadLine();
-                        DateTime? dateLivraison = string.IsNullOrEmpty(dateLivraisonStr) ? (DateTime?)null : DateTime.Parse(dateLivraisonStr);
-                        Console.Write("Nom du client : ");
-                        string clientNom = Console.ReadLine();
-
-                        var resultats = RechercherCommandes(
-                            string.IsNullOrEmpty(villeDepart) ? null : villeDepart,
-                            string.IsNullOrEmpty(villeArrivee) ? null : villeArrivee,
-                            dateLivraison,
-                            string.IsNullOrEmpty(clientNom) ? null : clientNom
-                        );
-
-                        foreach (var commande in resultats)
-                        {
-                            Console.WriteLine(commande);
-                            Console.WriteLine();
-                        }
-                        break;
-                    case 7:
-                        return;
-                    default:
-                        Console.WriteLine("Choix non valide, veuillez réessayer.");
-                        break;
-                }
-            }
+            return Salarie.Organigramme?.TrouverNoeud(numSecu)?.Salarie as Chauffeur;
         }
+
     }
 }

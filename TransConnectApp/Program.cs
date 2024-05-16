@@ -16,8 +16,9 @@ namespace TransConnectApp
                 Console.Clear();
                 Console.WriteLine("Bienvenue dans le Système de Gestion TransConnect");
                 Console.WriteLine("1. Gérer les Salariés");
-                Console.WriteLine("2. Voir l'Organigramme");
-                Console.WriteLine("3. Quitter");
+                Console.WriteLine("2. Gérer les Commandes");
+                Console.WriteLine("3. Voir l'Organigramme");
+                Console.WriteLine("4. Quitter");
 
                 Console.Write("Veuillez entrer votre choix : ");
                 var choix = Console.ReadLine();
@@ -28,10 +29,13 @@ namespace TransConnectApp
                         GérerLesSalariés();
                         break;
                     case "2":
+                        GérerLesCommandes();
+                        break;
+                    case "3":
                         GestionSalaries.ListerSalaries();
                         Console.ReadKey();
                         break;
-                    case "3":
+                    case "4":
                         systemeActif = false;
                         break;
                     default:
@@ -143,6 +147,81 @@ namespace TransConnectApp
                         Console.ReadKey();
                         break;
                     case "6":
+                        retour = false;
+                        break;
+                    default:
+                        Console.WriteLine("Choix invalide. Veuillez réessayer.");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+        }
+        static void GérerLesCommandes()
+        {
+            bool retour = true;
+            while (retour)
+            {
+                Console.Clear();
+                Console.WriteLine("Gestion des Commandes");
+                Console.WriteLine("1. Créer une nouvelle commande");
+                Console.WriteLine("2. Afficher les détails d'une commande");
+                Console.WriteLine("3. Modifier une commande existante");
+                Console.WriteLine("4. Annuler une commande");
+                Console.WriteLine("5. Lister toutes les commandes");
+                Console.WriteLine("6. Rechercher des commandes");
+                Console.WriteLine("7. Retour");
+
+                Console.Write("Veuillez choisir une option : ");
+                var choix = Console.ReadLine();
+
+                switch (choix)
+                {
+                    case "1":
+                        GestionCommande.CreerCommande();
+                        break;
+                    case "2":
+                        Console.Write("Entrez le numéro de la commande : ");
+                        string numeroCommande = Console.ReadLine();
+                        GestionCommande.AfficherDetails(numeroCommande);
+                        Console.ReadKey();
+                        break;
+                    case "3":
+                        GestionCommande.ModifierCommande();
+                        break;
+                    case "4":
+                        GestionCommande.AnnulerCommande();
+                        break;
+                    case "5":
+                        GestionCommande.ListerCommandes();
+                        Console.ReadKey();
+                        break;
+                    case "6":
+                        Console.WriteLine("Entrez les critères de recherche (laissez vide pour ignorer un critère) :");
+                        Console.Write("Ville de départ : ");
+                        string villeDepart = Console.ReadLine();
+                        Console.Write("Ville d'arrivée : ");
+                        string villeArrivee = Console.ReadLine();
+                        Console.Write("Date de livraison (yyyy-MM-dd) : ");
+                        string dateLivraisonStr = Console.ReadLine();
+                        DateTime? dateLivraison = string.IsNullOrEmpty(dateLivraisonStr) ? (DateTime?)null : DateTime.Parse(dateLivraisonStr);
+                        Console.Write("Nom du client : ");
+                        string clientNom = Console.ReadLine();
+
+                        var resultats = GestionCommande.RechercherCommandes(
+                            string.IsNullOrEmpty(villeDepart) ? null : villeDepart,
+                            string.IsNullOrEmpty(villeArrivee) ? null : villeArrivee,
+                            dateLivraison,
+                            string.IsNullOrEmpty(clientNom) ? null : clientNom
+                        );
+
+                        foreach (var commande in resultats)
+                        {
+                            Console.WriteLine(commande);
+                            Console.WriteLine();
+                        }
+                        Console.ReadKey();
+                        break;
+                    case "7":
                         retour = false;
                         break;
                     default:
