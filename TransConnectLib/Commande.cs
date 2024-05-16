@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using TransConnectLib;
 
-namespace TranConnectLib
+namespace TransConnectLib
 {
     public class Commande
 {
-    // Propriétés de la classe Commande
+    // attributs de la classe Commande
     public string NumeroCommande { get; private set; }
     public Client Client { get; private set; }
     public string VilleDepart { get; private set; }
