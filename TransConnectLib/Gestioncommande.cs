@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TransConnectLib;
 
-namespace FlotteVéhicule
+namespace TransConnectLib
 {
     public class GestionCommande
 {
