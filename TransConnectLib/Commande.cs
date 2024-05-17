@@ -7,7 +7,7 @@ using TransConnectLib;
 
 namespace TransConnectLib
 {
-    public class Commande
+    public class Commande : IComparable<Commande>
 {
     // attributs de la classe Commande
     public string NumeroCommande { get;  set; }
@@ -101,6 +101,11 @@ namespace TransConnectLib
         {
             Console.WriteLine(ville);
         }
+    }
+    public int CompareTo(Commande commande)
+    {
+        if (commande == null) return 1;
+        return Prix.CompareTo(commande.Prix);
     }
 
 }
