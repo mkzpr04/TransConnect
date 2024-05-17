@@ -22,7 +22,7 @@ namespace TransConnectLib
     public float NoteLivraison { get;  set; }
     public int DistanceTotale { get; set; }
     public List<string> Chemin { get; set; }
-    
+    private Dijkstra dijkstra;
 
     // Constructeur pour la classe Commande
     public Commande(string numeroCommande, Client client, string villeDepart, string villeArrivee, Vehicule vehicule, Chauffeur chauffeur, DateTime dateLivraison)
@@ -37,27 +37,28 @@ namespace TransConnectLib
         this.EtatLivraison = false; // Par défaut, la livraison n'est pas encore effectuée
         this.NoteLivraison = 0;
         this.Prix = CalculerPrix(); // Calcule le prix lors de la création de la commande
+        dijkstra = new Dijkstra("C:\\Users\\markz\\OneDrive\\Bureau\\ESILV\\formation initiale semestre 2\\C#\\PROBLEME\\distances.csv");
     }
     public bool LivraisonEffectuee(string numerocommande)
     { 
         return EtatLivraison;
     }
     public float CalculerPrix()
-    {
-        float distance = Dijkstra.CalculerPlusCourtChemin(VilleDepart, VilleArrivee);
-        float tarifParKm = 1.0F;
-
-        if (Vehicule is Camionnette)
         {
-            tarifParKm = 1.5F; // Tarif pour les camionnettes
-        }
-        if (Vehicule is Camion)
-        {
-            tarifParKm = 2.0F; // Tarif pour les camions 
-        }
+            float distance = dijkstra.CalculerPlusCourtChemin(VilleDepart, VilleArrivee);
+            float tarifParKm = 1.0F;
 
-        return distance * tarifParKm;
-    }
+            if (Vehicule is Camionnette)
+            {
+                tarifParKm = 1.5F; // Tarif pour les camionnettes
+            }
+            if (Vehicule is Camion)
+            {
+                tarifParKm = 2.0F; // Tarif pour les camions 
+            }
+
+            return distance * tarifParKm;
+        }
 
     public void EvaluationLivraison(float note)
     {

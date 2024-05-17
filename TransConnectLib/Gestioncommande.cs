@@ -100,11 +100,14 @@ namespace TransConnectLib
                 DistanceTotale = distanceTotale,
                 Chemin = dijkstra.Chemin
             };
+
+            // Calculer le prix de la commande
+            float prix = nouvelleCommande.CalculerPrix();
+            nouvelleCommande.Prix = prix;
+
             commandes.Add(nouvelleCommande);
             Console.WriteLine("Nouvelle commande créée avec succès.");
-            Console.ReadLine();
             SauvegarderCommandesDansCSV();
-            Console.ReadLine();
         }
 
         public static List<Chauffeur> ObtenirChauffeursDisponibles(DateTime dateLivraison)
