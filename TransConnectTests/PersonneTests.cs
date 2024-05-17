@@ -10,8 +10,8 @@ namespace TransConnectTests
         public void MailValideTest()
         {
             // Arrange
-            //(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, string telephone, string clientId)
-            var personne1 = new Client("123456789", "John", "John", new DateTime(1990, 1, 1), "Rue abcd","exemple@test.com", "1234567890", "1");
+            //(string numSecu, string nom, string prenom, DateTime dateNaissance, string adressePostale, string adresseMail, string telephone, string clientId, string ville)
+            var personne1 = new Client("123456789", "John", "John", new DateTime(2000, 1, 1), "Rue abcd","ex@gmail.com", "0667", "1234567890", "Paris");
 
 
             // Act

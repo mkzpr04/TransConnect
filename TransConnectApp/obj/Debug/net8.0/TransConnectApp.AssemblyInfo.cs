@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TransConnectApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8f0b592134838e4025ad75aa4ff5d1047a7cb0b1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c41810b572788829c7696f6c5c76ac1be6ce28d8")]
 [assembly: System.Reflection.AssemblyProductAttribute("TransConnectApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TransConnectApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -53,6 +53,7 @@ namespace TransConnectLib
             {
                 Console.WriteLine(commande);
             }
+            Console.ReadLine();
         }
 
         private static void AfficherStatistiquesChauffeurs()
@@ -64,6 +65,7 @@ namespace TransConnectLib
                 Console.WriteLine($"  Nombre de livraisons : {chauffeur.GetNombreLivraisons()}");
                 Console.WriteLine($"  Moyenne des notes : {chauffeur.GetMoyenneNotes():0.00}");
             }
+            Console.ReadLine();
         }
 
     
