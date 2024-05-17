@@ -206,52 +206,52 @@ namespace TransConnectApp
             }
         }
         static void GérerLesCommandes()
-{
-    bool retour = true;
-    while (retour)
-    {
-        Console.Clear();
-        Console.WriteLine("Gestion des Commandes");
-        Console.WriteLine("1. Créer une commande");
-        Console.WriteLine("2. Modifier une commande");
-        Console.WriteLine("3. Annuler une commande");
-        Console.WriteLine("4. Afficher les détails d'une commande");
-        Console.WriteLine("5. Lister toutes les commandes");
-        Console.WriteLine("6. Retour");
-
-        Console.Write("Veuillez choisir une option : ");
-        var choix = Console.ReadLine();
-
-        switch (choix)
         {
-            case "1":
-                GestionCommande.CreerCommande();
-                break;
-            case "2":
-                GestionCommande.ModifierCommande();
-                break;
-            case "3":
-                GestionCommande.AnnulerCommande();
-                break;
-            case "4":
-                Console.Write("Entrez le numéro de la commande : ");
-                string numeroCommande = Console.ReadLine();
-                GestionCommande.AfficherDetails(numeroCommande);
-                break;
-            case "5":
-                GestionCommande.ListerCommandes();
-                Console.ReadKey();
-                break;
-            case "6":
-                retour = false;
-                break;
-            default:
-                Console.WriteLine("Choix invalide. Veuillez réessayer.");
-                Console.ReadKey();
-                break;
+            bool retour = true;
+            while (retour)
+            {
+                Console.Clear();
+                Console.WriteLine("Gestion des Commandes");
+                Console.WriteLine("1. Créer une commande");
+                Console.WriteLine("2. Modifier une commande");
+                Console.WriteLine("3. Annuler une commande");
+                Console.WriteLine("4. Afficher les détails d'une commande");
+                Console.WriteLine("5. Lister toutes les commandes");
+                Console.WriteLine("6. Retour");
+
+                Console.Write("Veuillez choisir une option : ");
+                var choix = Console.ReadLine();
+
+                switch (choix)
+                {
+                    case "1":
+                        GestionCommande.CreerCommande();
+                        break;
+                    case "2":
+                        GestionCommande.ModifierCommande();
+                        break;
+                    case "3":
+                        GestionCommande.AnnulerCommande();
+                        break;
+                    case "4":
+                        Console.Write("Entrez le numéro de la commande : ");
+                        string numeroCommande = Console.ReadLine();
+                        GestionCommande.AfficherDetails(numeroCommande);
+                        break;
+                    case "5":
+                        GestionCommande.ListerCommandes();
+                        Console.ReadKey();
+                        break;
+                    case "6":
+                        retour = false;
+                        break;
+                    default:
+                        Console.WriteLine("Choix invalide. Veuillez réessayer.");
+                        Console.ReadKey();
+                        break;
+                }
+            }
         }
-    }
-}
 
 
         static void AjouterSalarie()

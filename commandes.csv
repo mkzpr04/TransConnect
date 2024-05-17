@@ -1,2 +1,3 @@
 NumeroCommande,ClientNumSecu,ClientNom,ClientPrenom,ClientDateNaissance,ClientAdressePostale,ClientAdresseMail,ClientTelephone,ClientID,VilleDepart,VilleArrivee,NomClient,ClientID,Prix,TypeVehicule,NomChauffeur,NumSecuChauffeur,DateLivraison,EtatLivraison,NoteLivraison
-9c3d5dde-468e-43e0-8a62-9605a74d3421,1,1,&,2003-10-10,,l@t,,1,Marseille,Paris,1,1,1,Voiture,Mr Romu,184127645108954,2024-05-17,False,0
+0fe32876-6149-45d0-b284-21a03bf4333f,1,1,1,2003-10-10,,m@g,,1,Marseille,Paris,1,1,1590,Voiture,Mr Romu,184127645108954,2024-05-17,True,4
+b8a1c9e9-b130-4b1e-8221-5786d3bcf6ee,2,2,2,2003-05-05,,md@f,,2,Marseille,La Rochelle,2,2,2218,CamionBenne,Mr Romi,084127645108955,2024-05-17,False,0

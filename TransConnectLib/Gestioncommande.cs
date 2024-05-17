@@ -78,37 +78,27 @@ namespace TransConnectLib
             }
 
             Console.Write("Choisissez un chauffeur (entrez le numéro) : ");
-            int choixChauffeur = int.Parse(Console.ReadLine()) - 1;
-
-            if (choixChauffeur < 0 || choixChauffeur >= chauffeursDisponibles.Count)
+            if (!int.TryParse(Console.ReadLine(), out int choixChauffeur) || choixChauffeur <= 0 || choixChauffeur > chauffeursDisponibles.Count)
             {
                 Console.WriteLine("Choix invalide.");
                 return;
             }
 
-            Chauffeur chauffeur = chauffeursDisponibles[choixChauffeur];
+            Chauffeur chauffeur = chauffeursDisponibles[choixChauffeur - 1];
 
             // Ajouter la date de livraison aux jours non disponibles du chauffeur
             chauffeur.AjouterJourNonDisponible(dateLivraison);
 
             Dijkstra dijkstra = new Dijkstra("C:\\Users\\markz\\OneDrive\\Bureau\\ESILV\\formation initiale semestre 2\\C#\\PROBLEME\\distances.csv");
-            int distanceTotale = dijkstra.CalculerPlusCourtChemin(villeDepart, villeArrivee);
 
             string numeroCommande = Guid.NewGuid().ToString();
-            Commande nouvelleCommande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison)
-            {
-                DistanceTotale = distanceTotale,
-                Chemin = dijkstra.Chemin
-            };
-
-            // Calculer le prix de la commande
-            float prix = nouvelleCommande.CalculerPrix();
-            nouvelleCommande.Prix = prix;
+            Commande nouvelleCommande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison, dijkstra);
 
             commandes.Add(nouvelleCommande);
             Console.WriteLine("Nouvelle commande créée avec succès.");
             SauvegarderCommandesDansCSV();
         }
+
 
         public static List<Chauffeur> ObtenirChauffeursDisponibles(DateTime dateLivraison)
         {
@@ -364,24 +354,32 @@ namespace TransConnectLib
             {
                 var values = line.Split(',');
 
-                string numeroCommande = values[10];
-                string villeArrivee = values[10];
-                Client client = new Client(values[1], values[2], values[3], DateTime.Parse(values[4]), values[5], values[6], values[7], values[8], villeArrivee);
+                string numeroCommande = values[0];
+                string clientNumSecu = values[1];
+                string clientNom = values[2];
+                string clientPrenom = values[3];
+                DateTime clientDateNaissance = DateTime.Parse(values[4]);
+                string clientAdressePostale = values[5];
+                string clientAdresseMail = values[6];
+                string clientTelephone = values[7];
+                string clientId = values[8];
                 string villeDepart = values[9];
-                string nomClient = values[11];
-                string clientId = values[12];
-                float prix = float.Parse(values[13]);
-                string typeVehicule = values[14];
-                string nomChauffeur = values[15];
-                string numSecuChauffeur = values[16];
-                DateTime dateLivraison = DateTime.Parse(values[17]);
-                bool etatLivraison = bool.Parse(values[18]);
-                float noteLivraison = float.Parse(values[19]);
+                string villeArrivee = values[10];
+                float prix = float.Parse(values[11]);
+                string typeVehicule = values[12];
+                string nomChauffeur = values[13];
+                string numSecuChauffeur = values[14];
+                DateTime dateLivraison = DateTime.Parse(values[15]);
+                bool etatLivraison = bool.Parse(values[16]);
+                float noteLivraison = float.Parse(values[17]);
 
+                Client client = new Client(clientNumSecu, clientNom, clientPrenom, clientDateNaissance, clientAdressePostale, clientAdresseMail, clientTelephone, clientId, villeArrivee);
                 Chauffeur chauffeur = GestionSalaries.TrouverChauffeur(numSecuChauffeur);
-                Vehicule vehicule = null;
+                Vehicule vehicule = CreerVehiculeDepuisType(typeVehicule, values);  // Vous devez implémenter cette méthode pour créer un véhicule basé sur le type et les valeurs du CSV.
 
-                Commande commande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison)
+                Dijkstra dijkstra = new Dijkstra("C:\\Users\\markz\\OneDrive\\Bureau\\ESILV\\formation initiale semestre 2\\C#\\PROBLEME\\distances.csv");
+
+                Commande commande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison, dijkstra)
                 {
                     Prix = prix,
                     EtatLivraison = etatLivraison,
@@ -389,7 +387,76 @@ namespace TransConnectLib
                 };
                 commandes.Add(commande);
             }
+
         }
+        private static Vehicule CreerVehiculeDepuisType(string typeVehicule, string[] values)
+        {
+            switch (typeVehicule)
+            {
+                case "Voiture":
+                    return new Voiture(
+                        null, 
+                        values[18], // plaqueImmatriculation
+                        values[19], // marque
+                        values[20], // modele
+                        double.Parse(values[21]), // capaciteReservoir
+                        values[22], // couleur
+                        int.Parse(values[23]) // nombrePassagers
+                    );
+                case "Camionnette":
+                    return new Camionnette(
+                        null, 
+                        values[18], // plaqueImmatriculation
+                        values[19], // marque
+                        values[20], // modele
+                        double.Parse(values[21]), // capaciteReservoir
+                        values[22], // couleur
+                        values[23] // usage
+                    );
+                case "CamionFrigorifique":
+                    return new CamionFrigorifique(
+                        null, 
+                        values[18], // plaqueImmatriculation
+                        values[19], // marque
+                        values[20], // modele
+                        double.Parse(values[21]), // capaciteReservoir
+                        values[22], // couleur
+                        double.Parse(values[23]), // temperature
+                        new List<string>(), // charge
+                        int.Parse(values[24]), // nombreGroupesElectrogenes
+                        DateTime.Parse(values[25]) // datePeremption
+                    );
+                case "CamionBenne":
+                    return new CamionBenne(
+                        null, 
+                        values[18], // plaqueImmatriculation
+                        values[19], // marque
+                        values[20], // modele
+                        double.Parse(values[21]), // capaciteReservoir
+                        values[22], // couleur
+                        int.Parse(values[23]), // nombreBennes
+                        bool.Parse(values[24]), // grue
+                        new List<string>(), // charge
+                        values[25], // typeBenne
+                        double.Parse(values[26]) // volumeBenne
+                    );
+                case "CamionCiterne":
+                    return new CamionCiterne(
+                        null, 
+                        values[18], // plaqueImmatriculation
+                        values[19], // marque
+                        values[20], // modele
+                        double.Parse(values[21]), // capaciteReservoir
+                        values[22], // couleur
+                        values[23], // typeLiquideTransporte
+                        double.Parse(values[24]), // capaciteCuve
+                        values[25] // typeCuve
+                    );
+                default:
+                    throw new ArgumentException("Type de véhicule non reconnu.");
+            }
+        }
+
 
         private static void SauvegarderCommandesDansCSV()
         {

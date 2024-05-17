@@ -25,40 +25,44 @@ namespace TransConnectLib
     private Dijkstra dijkstra;
 
     // Constructeur pour la classe Commande
-    public Commande(string numeroCommande, Client client, string villeDepart, string villeArrivee, Vehicule vehicule, Chauffeur chauffeur, DateTime dateLivraison)
+    public Commande(string numeroCommande, Client client, string villeDepart, string villeArrivee, Vehicule vehicule, Chauffeur chauffeur, DateTime dateLivraison, Dijkstra dijkstra)
     {
-        this.NumeroCommande = numeroCommande;
-        this.Client = client;
-        this.VilleDepart = villeDepart;
-        this.VilleArrivee = villeArrivee;
-        this.Vehicule = vehicule;
-        this.Chauffeur = chauffeur;
-        this.DateLivraison = dateLivraison;
-        this.EtatLivraison = false; // Par défaut, la livraison n'est pas encore effectuée
-        this.NoteLivraison = 0;
-        this.Prix = CalculerPrix(); // Calcule le prix lors de la création de la commande
-        dijkstra = new Dijkstra("C:\\Users\\markz\\OneDrive\\Bureau\\ESILV\\formation initiale semestre 2\\C#\\PROBLEME\\distances.csv");
+        NumeroCommande = numeroCommande;
+        Client = client;
+        VilleDepart = villeDepart;
+        VilleArrivee = villeArrivee;
+        Vehicule = vehicule;
+        Chauffeur = chauffeur;
+        DateLivraison = dateLivraison;
+        this.dijkstra = dijkstra;
+        Chemin = new List<string>();
+
+        // Initialisation de la distance et du chemin
+        DistanceTotale = this.dijkstra.CalculerPlusCourtChemin(VilleDepart, VilleArrivee);
+        Chemin = this.dijkstra.Chemin;
+
+        // Calculer le prix de la commande
+        Prix = CalculerPrix();
     }
     public bool LivraisonEffectuee(string numerocommande)
     { 
         return EtatLivraison;
     }
     public float CalculerPrix()
+    {
+        float tarifParKm = 1.0F;
+
+        if (Vehicule is Camionnette)
         {
-            float distance = dijkstra.CalculerPlusCourtChemin(VilleDepart, VilleArrivee);
-            float tarifParKm = 1.0F;
-
-            if (Vehicule is Camionnette)
-            {
-                tarifParKm = 1.5F; // Tarif pour les camionnettes
-            }
-            if (Vehicule is Camion)
-            {
-                tarifParKm = 2.0F; // Tarif pour les camions 
-            }
-
-            return distance * tarifParKm;
+            tarifParKm = 1.5F; // Tarif pour les camionnettes
         }
+        if (Vehicule is Camion)
+        {
+            tarifParKm = 2.0F; // Tarif pour les camions 
+        }
+
+        return DistanceTotale * tarifParKm;
+    }
 
     public void EvaluationLivraison(float note)
     {
