@@ -58,11 +58,6 @@ namespace TransConnectLib
 
         return distance * tarifParKm;
     }
-    private float CalculerDistance(string villeDepart, string villeArrivee)
-    {
-        //Récuperer les valeurs dans le excel (utiliser aussi Dijkstra ?)
-        return 1.0f; //valeur juste pour pas avoir d'erreur
-    }
 
     public void EvaluationLivraison(float note)
     {
