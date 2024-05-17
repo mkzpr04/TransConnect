@@ -19,7 +19,8 @@ namespace TransConnectApp
                 Console.WriteLine("2. Gérer les Commandes");
                 Console.WriteLine("3. Gérer les Clients");
                 Console.WriteLine("4. Voir l'Organigramme");
-                Console.WriteLine("5. Quitter");
+                Console.WriteLine("5. Voir les Statistiques");
+                Console.WriteLine("6. Quitter");
 
                 Console.Write("Veuillez entrer votre choix : ");
                 var choix = Console.ReadLine();
@@ -40,6 +41,9 @@ namespace TransConnectApp
                         Console.ReadKey();
                         break;
                     case "5":
+                        statistiques.AfficherMenuStatistiques();
+                        break;
+                    case "6":
                         systemeActif = false;
                         break;
                     default:
