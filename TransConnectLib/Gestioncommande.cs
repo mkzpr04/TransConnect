@@ -16,13 +16,22 @@ namespace TransConnectLib
             Commande commande = RechercherCommande(numeroCommande);
             if (commande != null)
             {
-                Console.WriteLine(commande);
+                Console.WriteLine("Numéro de commande : " + commande.NumeroCommande);
+                Console.WriteLine("Nom du client : " + commande.Client.Nom);
+                Console.WriteLine("Ville de départ : " + commande.VilleDepart);
+                Console.WriteLine("Ville d'arrivée : " + commande.VilleArrivee);
+                Console.WriteLine("Date de livraison : " + commande.DateLivraison.ToString("yyyy-MM-dd"));
+                Console.WriteLine("État de livraison : " + (commande.EtatLivraison ? "Effectuée" : "Non effectuée"));
+                Console.WriteLine("Note de livraison : " + commande.NoteLivraison);
+                Console.ReadLine();
             }
             else
             {
                 Console.WriteLine("Commande non trouvée.");
+                Console.ReadLine();
             }
         }
+
 
         public static void CreerCommande()
         {
@@ -71,6 +80,9 @@ namespace TransConnectLib
             }
 
             Chauffeur chauffeur = chauffeursDisponibles[choixChauffeur];
+
+            // Ajouter la date de livraison aux jours non disponibles du chauffeur
+            chauffeur.AjouterJourNonDisponible(dateLivraison);
 
             string numeroCommande = Guid.NewGuid().ToString();
             Console.WriteLine("Le numéro de la commande est : " + numeroCommande);
@@ -193,7 +205,7 @@ namespace TransConnectLib
             }
         }
 
-        public static void ModifierCommande()
+       public static void ModifierCommande()
         {
             ListerCommandes();
             Console.Write("Entrez le numéro de la commande à modifier : ");
@@ -201,20 +213,19 @@ namespace TransConnectLib
 
             Commande commande = RechercherCommande(numeroCommande);
 
-            // souhaitez vous modifier l'état de la commande ? (oui / non)
-            // si oui, modifier l'état de la commande
-            // si non, continuer
             if (commande != null)
             {
                 Console.WriteLine("Souhaitez-vous modifier l'état de la commande ? (oui / non)");
                 string reponse = Console.ReadLine();
-                if (reponse == "oui")
+                if (reponse.ToLower() == "oui")
                 {
-                    Console.WriteLine("Entrez le nouvel état de la commande (true / false) : ");
+                    Console.Write("Entrez le nouvel état de la commande (true / false) : ");
                     commande.EtatLivraison = bool.Parse(Console.ReadLine());
-                    Console.WriteLine("Etat de la commande modifié avec succès.");
-                    SauvegarderCommandesDansCSV();
-                    return;
+                    Console.WriteLine("État de la commande modifié avec succès.");
+
+                    Console.Write("Entrez la note de la livraison (entre 0 et 5) : ");
+                    commande.NoteLivraison = float.Parse(Console.ReadLine());
+                    Console.WriteLine("Note de la livraison modifiée avec succès.");
                 }
                 else
                 {
@@ -247,7 +258,7 @@ namespace TransConnectLib
                         Console.WriteLine($"{i + 1}. {chauffeursDisponibles[i].Nom} {chauffeursDisponibles[i].Prenom}");
                     }
 
-                    Console.Write("Choisissez un chauffeur : ");
+                    Console.Write("Choisissez un chauffeur (entrez le numéro) : ");
                     int choixChauffeur = int.Parse(Console.ReadLine()) - 1;
                     if (choixChauffeur < 0 || choixChauffeur >= chauffeursDisponibles.Count)
                     {
@@ -260,15 +271,16 @@ namespace TransConnectLib
 
                     commande.ModifierCommande(vehicule, chauffeur, villeDepart, villeArrivee, dateLivraison, prix);
                     Console.WriteLine("Commande modifiée avec succès.");
-                    SauvegarderCommandesDansCSV();
-                    }
-                    
                 }
+
+                SauvegarderCommandesDansCSV();
+            }
             else
             {
                 Console.WriteLine("Commande non trouvée.");
             }
         }
+
 
         public static void AnnulerCommande()
         {
@@ -292,10 +304,17 @@ namespace TransConnectLib
         {
             foreach (var commande in commandes)
             {
-                Console.WriteLine(commande.NumeroCommande, commande.Client.Nom, commande.VilleDepart, commande.VilleArrivee, commande.DateLivraison, commande.EtatLivraison, commande.NoteLivraison);
+                Console.WriteLine("Numéro de commande : " + commande.NumeroCommande);
+                Console.WriteLine("Nom du client : " + commande.Client.Nom);
+                Console.WriteLine("Ville de départ : " + commande.VilleDepart);
+                Console.WriteLine("Ville d'arrivée : " + commande.VilleArrivee);
+                Console.WriteLine("Date de livraison : " + commande.DateLivraison.ToString("yyyy-MM-dd"));
+                Console.WriteLine("État de livraison : " + (commande.EtatLivraison ? "Effectuée" : "Non effectuée"));
+                Console.WriteLine("Note de livraison : " + commande.NoteLivraison);
                 Console.WriteLine();
             }
         }
+
 
         public static Commande RechercherCommande(string numeroCommande)
         {
