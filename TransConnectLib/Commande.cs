@@ -44,7 +44,7 @@ namespace TransConnectLib
     }
     public float CalculerPrix()
     {
-        float distance = CalculerDistance(VilleDepart, VilleArrivee);
+        float distance = CalculerPlusCourtChemin(VilleDepart, VilleArrivee);
         float tarifParKm = 1.0F;
 
         if (Vehicule is Camionnette)
