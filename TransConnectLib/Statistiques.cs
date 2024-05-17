@@ -23,8 +23,7 @@ namespace TransConnectLib
             Console.WriteLine("Menu des statistiques :");
             Console.WriteLine("1. Afficher les statistiques des commandes");
             Console.WriteLine("2. Afficher les statistiques des chauffeurs");
-            Console.WriteLine("3. Afficher les statistiques des véhicules");
-            Console.WriteLine("4. Retour au menu principal");
+            Console.WriteLine("3. Retour au menu principal");
             Console.Write("Entrez votre choix : ");
 
             int choix = int.Parse(Console.ReadLine());
@@ -38,9 +37,6 @@ namespace TransConnectLib
                     AfficherStatistiquesChauffeurs();
                     break;
                 case 3:
-                    AfficherStatistiquesVehicules();
-                    break;
-                case 4:
                     return;
                 default:
                     Console.WriteLine("Choix non valide, veuillez réessayer.");
@@ -75,16 +71,6 @@ namespace TransConnectLib
         }
     }
 
-    private void AfficherStatistiquesVehicules()
-    {
-        var typesVehicules = commandes.GroupBy(c => c.Vehicule.GetType().Name);
-        foreach (var typeGroup in typesVehicules)
-        {
-            var type = typeGroup.Key;
-            Console.WriteLine($"Type de véhicule : {type}");
-            Console.WriteLine($"  Utilisation : {typeGroup.Count()}");
-            Console.WriteLine($"  Moyenne des distances parcourues : {typeGroup.Average(c => c.Vehicule.DistanceParcourue):0.00} km");
-        }
-    }
+    
 }
 }
