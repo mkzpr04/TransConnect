@@ -11,6 +11,11 @@ namespace TransConnectLib
         private static List<Commande> commandes = new List<Commande>();
         private static string csvFilePath = "C:\\Users\\markz\\OneDrive\\Bureau\\ESILV\\formation initiale semestre 2\\C#\\PROBLEME\\commandes.csv"; //mettre le chemin du fichier
 
+        private static GrapheVilles grapheVilles;
+        public static void InitialiserGraphe(string filePath)
+        {
+            grapheVilles = GestionGraphe.ChargerGrapheDepuisCSV(filePath);
+        }
         public static void AfficherDetails(string numeroCommande)
         {
             Commande commande = RechercherCommande(numeroCommande);
@@ -23,6 +28,8 @@ namespace TransConnectLib
                 Console.WriteLine("Date de livraison : " + commande.DateLivraison.ToString("yyyy-MM-dd"));
                 Console.WriteLine("État de livraison : " + (commande.EtatLivraison ? "Effectuée" : "Non effectuée"));
                 Console.WriteLine("Note de livraison : " + commande.NoteLivraison);
+                Console.WriteLine($"Prix de la commande: {commande.CalculerPrix()}");
+                commande.AfficherPlanDeRoute();
                 Console.ReadLine();
             }
             else
@@ -84,13 +91,20 @@ namespace TransConnectLib
             // Ajouter la date de livraison aux jours non disponibles du chauffeur
             chauffeur.AjouterJourNonDisponible(dateLivraison);
 
+            Dijkstra dijkstra = new Dijkstra("C:\\Users\\markz\\OneDrive\\Bureau\\ESILV\\formation initiale semestre 2\\C#\\PROBLEME\\distances.csv");
+            int distanceTotale = dijkstra.CalculerPlusCourtChemin(villeDepart, villeArrivee);
+
             string numeroCommande = Guid.NewGuid().ToString();
-            Console.WriteLine("Le numéro de la commande est : " + numeroCommande);
-            Commande nouvelleCommande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison);
+            Commande nouvelleCommande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison)
+            {
+                DistanceTotale = distanceTotale,
+                Chemin = dijkstra.Chemin
+            };
             commandes.Add(nouvelleCommande);
             Console.WriteLine("Nouvelle commande créée avec succès.");
             Console.ReadLine();
             SauvegarderCommandesDansCSV();
+            Console.ReadLine();
         }
 
         public static List<Chauffeur> ObtenirChauffeursDisponibles(DateTime dateLivraison)
@@ -311,6 +325,8 @@ namespace TransConnectLib
                 Console.WriteLine("Date de livraison : " + commande.DateLivraison.ToString("yyyy-MM-dd"));
                 Console.WriteLine("État de livraison : " + (commande.EtatLivraison ? "Effectuée" : "Non effectuée"));
                 Console.WriteLine("Note de livraison : " + commande.NoteLivraison);
+                Console.WriteLine($"Distance totale: {commande.DistanceTotale}");
+                commande.AfficherPlanDeRoute();
                 Console.WriteLine();
             }
         }

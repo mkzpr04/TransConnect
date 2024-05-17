@@ -20,6 +20,8 @@ namespace TransConnectLib
     public DateTime DateLivraison { get;  set; }
     public bool EtatLivraison { get;  set; }
     public float NoteLivraison { get;  set; }
+    public int DistanceTotale { get; set; }
+    public List<string> Chemin { get; set; }
     
 
     // Constructeur pour la classe Commande
@@ -92,7 +94,14 @@ namespace TransConnectLib
         Console.WriteLine("La commande a été annulée.");
     }
 
-    // créer des méthodes pour exporter les données vers un fichier excel
+    public void AfficherPlanDeRoute()
+    {
+        Console.WriteLine($"Plan de route pour la commande {NumeroCommande}:");
+        foreach (var ville in Chemin)
+        {
+            Console.WriteLine(ville);
+        }
+    }
 
 }
 }
