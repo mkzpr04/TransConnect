@@ -28,6 +28,7 @@ namespace TransConnectLib
                 Console.WriteLine("Date de livraison : " + commande.DateLivraison.ToString("yyyy-MM-dd"));
                 Console.WriteLine("État de livraison : " + (commande.EtatLivraison ? "Effectuée" : "Non effectuée"));
                 Console.WriteLine("Note de livraison : " + commande.NoteLivraison);
+                Console.WriteLine($"Distance totale: {commande.DistanceTotale}");
                 Console.WriteLine($"Prix de la commande: {commande.CalculerPrix()}");
                 commande.AfficherPlanDeRoute();
                 Console.ReadLine();
@@ -319,6 +320,7 @@ namespace TransConnectLib
                 Console.WriteLine("État de livraison : " + (commande.EtatLivraison ? "Effectuée" : "Non effectuée"));
                 Console.WriteLine("Note de livraison : " + commande.NoteLivraison);
                 Console.WriteLine($"Distance totale: {commande.DistanceTotale}");
+                Console.WriteLine($"Prix de la commande: {commande.CalculerPrix()}");
                 commande.AfficherPlanDeRoute();
                 Console.WriteLine();
             }
