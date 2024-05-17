@@ -1,4 +1,8 @@
-interface IComparable
+namespace TransConnectLib
 {
-    int CompareTo();
+    interface IComparable
+    {
+        int CompareTo();
+    }
+
 }
