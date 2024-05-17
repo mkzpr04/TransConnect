@@ -83,5 +83,11 @@ namespace TransConnectLib
         {
             return salaries.Count;
         }
+        
+        public static Chauffeur TrouverChauffeur(string numSecu)
+        {
+            return salaries.OfType<Chauffeur>().FirstOrDefault(c => c.NumSecu == numSecu);
+        }
+
     }
 }

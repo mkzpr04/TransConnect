@@ -9,7 +9,7 @@ namespace TransConnectLib
     public static class GestionCommande 
     {
         private static List<Commande> commandes = new List<Commande>();
-        private static string csvFilePath = "mettre le chemin du fichier"; //mettre le chemin du fichier
+        private static string csvFilePath = "C:\\Users\\markz\\OneDrive\\Bureau\\ESILV\\formation initiale semestre 2\\C#\\PROBLEME\\commandes.csv"; //mettre le chemin du fichier
 
         public static void AfficherDetails(string numeroCommande)
         {
@@ -45,24 +45,25 @@ namespace TransConnectLib
 
             Vehicule vehicule = CreerVehicule();
 
-            Console.Write("Entrez la date de livraison (yyyy-MM-dd) : ");
+            Console.Write("Entrez la date de livraison (yyyy-mm-dd) : ");
             DateTime dateLivraison = DateTime.Parse(Console.ReadLine());
 
             List<Chauffeur> chauffeursDisponibles = ObtenirChauffeursDisponibles(dateLivraison);
-            if (chauffeursDisponibles.Count == 0)
+            if (chauffeursDisponibles == null || chauffeursDisponibles.Count == 0)
             {
-                Console.WriteLine("Aucun chauffeur disponible à cette date.");
+                Console.WriteLine("Aucun chauffeur disponible pour cette date.");
                 return;
             }
 
             Console.WriteLine("Chauffeurs disponibles :");
             for (int i = 0; i < chauffeursDisponibles.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {chauffeursDisponibles[i].Nom} {chauffeursDisponibles[i].Prenom}");
+                Console.WriteLine($"{i + 1}. {chauffeursDisponibles[i].Nom}");
             }
 
-            Console.Write("Choisissez un chauffeur : ");
+            Console.Write("Choisissez un chauffeur (entrez le numéro) : ");
             int choixChauffeur = int.Parse(Console.ReadLine()) - 1;
+
             if (choixChauffeur < 0 || choixChauffeur >= chauffeursDisponibles.Count)
             {
                 Console.WriteLine("Choix invalide.");
@@ -70,16 +71,17 @@ namespace TransConnectLib
             }
 
             Chauffeur chauffeur = chauffeursDisponibles[choixChauffeur];
-            chauffeur.AjouterJourNonDisponible(dateLivraison);  // Marquer le chauffeur comme non disponible pour ce jour
 
             string numeroCommande = Guid.NewGuid().ToString();
+            Console.WriteLine("Le numéro de la commande est : " + numeroCommande);
             Commande nouvelleCommande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison);
             commandes.Add(nouvelleCommande);
             Console.WriteLine("Nouvelle commande créée avec succès.");
+            Console.ReadLine();
             SauvegarderCommandesDansCSV();
         }
 
-        private static List<Chauffeur> ObtenirChauffeursDisponibles(DateTime dateLivraison)
+        public static List<Chauffeur> ObtenirChauffeursDisponibles(DateTime dateLivraison)
         {
             List<Chauffeur> chauffeursDisponibles = new List<Chauffeur>();
             AjouterChauffeursDisponibles(Salarie.Organigramme, chauffeursDisponibles, dateLivraison);
@@ -93,11 +95,12 @@ namespace TransConnectLib
                 chauffeursDisponibles.Add(chauffeur);
             }
 
-            foreach (var sub in noeud.Subordonnes)
+            foreach (var subordonne in noeud.Subordonnes)
             {
-                AjouterChauffeursDisponibles(sub, chauffeursDisponibles, dateLivraison);
+                AjouterChauffeursDisponibles(subordonne, chauffeursDisponibles, dateLivraison);
             }
         }
+        
 
         private static Client CreerClient()
         {
@@ -192,56 +195,75 @@ namespace TransConnectLib
 
         public static void ModifierCommande()
         {
+            ListerCommandes();
             Console.Write("Entrez le numéro de la commande à modifier : ");
             string numeroCommande = Console.ReadLine();
 
             Commande commande = RechercherCommande(numeroCommande);
+
+            // souhaitez vous modifier l'état de la commande ? (oui / non)
+            // si oui, modifier l'état de la commande
+            // si non, continuer
             if (commande != null)
             {
-                Console.Write("Entrez la nouvelle ville de départ : ");
-                string villeDepart = Console.ReadLine();
-
-                Console.Write("Entrez la nouvelle ville d'arrivée : ");
-                string villeArrivee = Console.ReadLine();
-
-                Console.Write("Entrez la nouvelle date de livraison (yyyy-MM-dd) : ");
-                DateTime dateLivraison = DateTime.Parse(Console.ReadLine());
-
-                Console.Write("Entrez le nouveau prix : ");
-                float prix = float.Parse(Console.ReadLine());
-
-                Console.WriteLine("Modification du véhicule...");
-                Vehicule vehicule = CreerVehicule();
-
-                Console.WriteLine("Modification du chauffeur...");
-                List<Chauffeur> chauffeursDisponibles = ObtenirChauffeursDisponibles(dateLivraison);
-                if (chauffeursDisponibles.Count == 0)
+                Console.WriteLine("Souhaitez-vous modifier l'état de la commande ? (oui / non)");
+                string reponse = Console.ReadLine();
+                if (reponse == "oui")
                 {
-                    Console.WriteLine("Aucun chauffeur disponible à cette date.");
+                    Console.WriteLine("Entrez le nouvel état de la commande (true / false) : ");
+                    commande.EtatLivraison = bool.Parse(Console.ReadLine());
+                    Console.WriteLine("Etat de la commande modifié avec succès.");
+                    SauvegarderCommandesDansCSV();
                     return;
                 }
-
-                Console.WriteLine("Chauffeurs disponibles :");
-                for (int i = 0; i < chauffeursDisponibles.Count; i++)
+                else
                 {
-                    Console.WriteLine($"{i + 1}. {chauffeursDisponibles[i].Nom} {chauffeursDisponibles[i].Prenom}");
+                    Console.Write("Entrez la nouvelle ville de départ : ");
+                    string villeDepart = Console.ReadLine();
+
+                    Console.Write("Entrez la nouvelle ville d'arrivée : ");
+                    string villeArrivee = Console.ReadLine();
+
+                    Console.Write("Entrez la nouvelle date de livraison (yyyy-MM-dd) : ");
+                    DateTime dateLivraison = DateTime.Parse(Console.ReadLine());
+
+                    Console.Write("Entrez le nouveau prix : ");
+                    float prix = float.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Modification du véhicule...");
+                    Vehicule vehicule = CreerVehicule();
+
+                    Console.WriteLine("Modification du chauffeur...");
+                    List<Chauffeur> chauffeursDisponibles = ObtenirChauffeursDisponibles(dateLivraison);
+                    if (chauffeursDisponibles.Count == 0)
+                    {
+                        Console.WriteLine("Aucun chauffeur disponible à cette date.");
+                        return;
+                    }
+
+                    Console.WriteLine("Chauffeurs disponibles :");
+                    for (int i = 0; i < chauffeursDisponibles.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {chauffeursDisponibles[i].Nom} {chauffeursDisponibles[i].Prenom}");
+                    }
+
+                    Console.Write("Choisissez un chauffeur : ");
+                    int choixChauffeur = int.Parse(Console.ReadLine()) - 1;
+                    if (choixChauffeur < 0 || choixChauffeur >= chauffeursDisponibles.Count)
+                    {
+                        Console.WriteLine("Choix invalide.");
+                        return;
+                    }
+
+                    Chauffeur chauffeur = chauffeursDisponibles[choixChauffeur];
+                    chauffeur.AjouterJourNonDisponible(dateLivraison);  // Marquer le chauffeur comme non disponible pour ce jour
+
+                    commande.ModifierCommande(vehicule, chauffeur, villeDepart, villeArrivee, dateLivraison, prix);
+                    Console.WriteLine("Commande modifiée avec succès.");
+                    SauvegarderCommandesDansCSV();
+                    }
+                    
                 }
-
-                Console.Write("Choisissez un chauffeur : ");
-                int choixChauffeur = int.Parse(Console.ReadLine()) - 1;
-                if (choixChauffeur < 0 || choixChauffeur >= chauffeursDisponibles.Count)
-                {
-                    Console.WriteLine("Choix invalide.");
-                    return;
-                }
-
-                Chauffeur chauffeur = chauffeursDisponibles[choixChauffeur];
-                chauffeur.AjouterJourNonDisponible(dateLivraison);  // Marquer le chauffeur comme non disponible pour ce jour
-
-                commande.ModifierCommande(vehicule, chauffeur, villeDepart, villeArrivee, dateLivraison, prix);
-                Console.WriteLine("Commande modifiée avec succès.");
-                SauvegarderCommandesDansCSV();
-            }
             else
             {
                 Console.WriteLine("Commande non trouvée.");
@@ -270,7 +292,7 @@ namespace TransConnectLib
         {
             foreach (var commande in commandes)
             {
-                Console.WriteLine(commande);
+                Console.WriteLine(commande.NumeroCommande, commande.Client.Nom, commande.VilleDepart, commande.VilleArrivee, commande.DateLivraison, commande.EtatLivraison, commande.NoteLivraison);
                 Console.WriteLine();
             }
         }
@@ -294,56 +316,56 @@ namespace TransConnectLib
             return Salarie.Organigramme?.TrouverNoeud(numSecu)?.Salarie as Chauffeur;
         }
         private static void ChargerCommandesDepuisCSV()
-{
-    if (!File.Exists(csvFilePath))
-        return;
-
-    var lines = File.ReadAllLines(csvFilePath);
-
-    foreach (var line in lines.Skip(1))
-    {
-        var values = line.Split(',');
-
-        string numeroCommande = values[0];
-        Client client = new Client(values[1], values[2], values[3], DateTime.Parse(values[4]), values[5], values[6], values[7], values[8]);
-        string villeDepart = values[9];
-        string villeArrivee = values[10];
-        string nomClient = values[11];
-        string clientId = values[12];
-        float prix = float.Parse(values[13]);
-        string typeVehicule = values[14];
-        string nomChauffeur = values[15];
-        string numSecuChauffeur = values[16];
-        DateTime dateLivraison = DateTime.Parse(values[17]);
-        bool etatLivraison = bool.Parse(values[18]);
-        float noteLivraison = float.Parse(values[19]);
-
-        Chauffeur chauffeur = Salarie.EmployeTC.Find(c => c.NumSecu == numSecuChauffeur) as Chauffeur;
-        Vehicule vehicule = null;
-
-        Commande commande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison)
         {
-            Prix = prix,
-            EtatLivraison = etatLivraison,
-            NoteLivraison = noteLivraison
+            if (!File.Exists(csvFilePath))
+                return;
+
+            var lines = File.ReadAllLines(csvFilePath);
+
+            foreach (var line in lines.Skip(1))
+            {
+                var values = line.Split(',');
+
+                string numeroCommande = values[10];
+                string villeArrivee = values[10];
+                Client client = new Client(values[1], values[2], values[3], DateTime.Parse(values[4]), values[5], values[6], values[7], values[8], villeArrivee);
+                string villeDepart = values[9];
+                string nomClient = values[11];
+                string clientId = values[12];
+                float prix = float.Parse(values[13]);
+                string typeVehicule = values[14];
+                string nomChauffeur = values[15];
+                string numSecuChauffeur = values[16];
+                DateTime dateLivraison = DateTime.Parse(values[17]);
+                bool etatLivraison = bool.Parse(values[18]);
+                float noteLivraison = float.Parse(values[19]);
+
+                Chauffeur chauffeur = GestionSalaries.TrouverChauffeur(numSecuChauffeur);
+                Vehicule vehicule = null;
+
+                Commande commande = new Commande(numeroCommande, client, villeDepart, villeArrivee, vehicule, chauffeur, dateLivraison)
+                {
+                    Prix = prix,
+                    EtatLivraison = etatLivraison,
+                    NoteLivraison = noteLivraison
+                };
+                commandes.Add(commande);
+            }
+        }
+
+        private static void SauvegarderCommandesDansCSV()
+        {
+            var lines = new List<string>
+        {
+            "NumeroCommande,ClientNumSecu,ClientNom,ClientPrenom,ClientDateNaissance,ClientAdressePostale,ClientAdresseMail,ClientTelephone,ClientID,VilleDepart,VilleArrivee,NomClient,ClientID,Prix,TypeVehicule,NomChauffeur,NumSecuChauffeur,DateLivraison,EtatLivraison,NoteLivraison"
         };
-        commandes.Add(commande);
-    }
-}
 
-private static void SauvegarderCommandesDansCSV()
-{
-    var lines = new List<string>
-{
-    "NumeroCommande,ClientNumSecu,ClientNom,ClientPrenom,ClientDateNaissance,ClientAdressePostale,ClientAdresseMail,ClientTelephone,ClientID,VilleDepart,VilleArrivee,NomClient,ClientID,Prix,TypeVehicule,NomChauffeur,NumSecuChauffeur,DateLivraison,EtatLivraison,NoteLivraison"
-};
+            foreach (var commande in commandes)
+            {
+                lines.Add($"{commande.NumeroCommande},{commande.Client.NumSecu},{commande.Client.Nom},{commande.Client.Prenom},{commande.Client.DateNaissance:yyyy-MM-dd},{commande.Client.AdressePostale},{commande.Client.AdresseMail},{commande.Client.Telephone},{commande.Client.clientId},{commande.VilleDepart},{commande.VilleArrivee},{commande.Client.Nom},{commande.Client.clientId},{commande.Prix},{commande.Vehicule?.GetType().Name},{commande.Chauffeur.Nom},{commande.Chauffeur.NumSecu},{commande.DateLivraison:yyyy-MM-dd},{commande.EtatLivraison},{commande.NoteLivraison}");
+            }
 
-    foreach (var commande in commandes)
-    {
-        lines.Add($"{commande.NumeroCommande},{commande.Client.NumSecu},{commande.Client.Nom},{commande.Client.Prenom},{commande.Client.DateNaissance:yyyy-MM-dd},{commande.Client.AdressePostale},{commande.Client.AdresseMail},{commande.Client.Telephone},{commande.Client.clientId},{commande.VilleDepart},{commande.VilleArrivee},{commande.Client.Nom},{commande.Client.clientId},{commande.Prix},{commande.Vehicule?.GetType().Name},{commande.Chauffeur.Nom},{commande.Chauffeur.NumSecu},{commande.DateLivraison:yyyy-MM-dd},{commande.EtatLivraison},{commande.NoteLivraison}");
-    }
-
-    File.WriteAllLines(csvFilePath, lines);
-}
+            File.WriteAllLines(csvFilePath, lines);
+        }
     }
 }
