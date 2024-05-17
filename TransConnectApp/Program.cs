@@ -41,7 +41,7 @@ namespace TransConnectApp
                         Console.ReadKey();
                         break;
                     case "5":
-                        statistiques.AfficherMenuStatistiques();
+                        Statistiques.AfficherMenuStatistiques();
                         break;
                     case "6":
                         systemeActif = false;
