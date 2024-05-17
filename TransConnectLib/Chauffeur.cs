@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TransConnectLib
 {
-    public class Chauffeur : Salarie
+    public class Chauffeur : Salarie, IComparable<Chauffeur>
     {
         public List<DateTime> JoursNonDisponibles { get; private set; }
 
@@ -38,6 +38,22 @@ namespace TransConnectLib
         public void AjouterJourNonDisponible(DateTime date)
         {
             JoursNonDisponibles.Add(date.Date);
+        }
+        public int GetNombreLivraisons()
+        {
+            return GestionCommande.RechercherCommandes(null, null, null, this.Nom).Count;
+        }
+
+        public float GetMoyenneNotes()
+        {
+            var commandes = GestionCommande.RechercherCommandes(null, null, null, this.Nom);
+            return commandes.Count == 0 ? 0 : commandes.Average(c => c.NoteLivraison);
+        }
+
+        public int CompareTo(Chauffeur chauffeur)
+        {
+            if (chauffeur == null) return 1;
+            return GetNombreLivraisons().CompareTo(chauffeur.GetNombreLivraisons());
         }
     }
 }
