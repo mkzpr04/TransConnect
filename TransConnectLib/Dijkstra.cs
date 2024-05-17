@@ -41,7 +41,7 @@ namespace TransConnectLib
                 }
 
                 graph[start].Add((end, distance));
-                graph[end].Add((start, distance)); // Assuming undirected graph
+                graph[end].Add((start, distance)); 
             }
         }
 
